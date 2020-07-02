@@ -1,0 +1,990 @@
+SPECIES,Genus,sp,species_name
+ABIE ALB,,,Abies alba
+ACER CAM,,,Acer campestre
+ACER OBT,,,
+ACER PLA,,,Acer platanoides
+ACER PSE,,,Acer pseudoplatanus
+ACER Z,,,Acer sp.
+ACHI MIL,,,Achillea millefolium
+ACIALPI,,,Acinos alpinus
+ACON NAP,,,Aconitum napellus
+ACON VUL,,,Aconitum vulparia
+ACONITUZ,,,Aconitum sp.
+ACTA SPI,,,Actaea spicata
+ADENOALL,,,Adenostyles Alliariae
+ADENOGLA,,,Adenostyles glabra
+ADOX MOS,,,Adoxa moschatellina
+AEGO POD,,,Aegopodium podagraria
+AGRO CAP,,,Agrostis capillaris
+AGRO CNA,,,Agrostis canina
+AGRO CUR,,,Agrostis curtisii
+AGRO GIG,,,Agrostis gigantea
+AGRO REP,,,Agropyron repens
+AGRO STO,,,Agrostis stolonifera
+AGRO TEN,,,Agrostis tenuis
+AGROSTIZ,,,Agrostis sp.
+AJUG PYR,,,Ajuga pyramidalis
+AJUG REP,,,Ajuga reptans
+ALCH ALI,,,Alchemilla alpina
+ALCH/VUL,,,Alchemilla vulgaris
+ALLI CAR,,,Allium carinatum
+ALLI PET,,,Alliaria petiolata
+ALLI SCO,,,Allium scorodoprasum
+ALNU GLU,,,Alnus glutinosa
+ALNU INC,,,Alnus incana
+AMEOVAL,,,Amelanchier ovalis
+ANAC PYR,,,Anacamptis pyramidalis
+ANDR POL,,,Andromeda polifolia
+ANEM NEM,,,Anemone nemorosa
+ANGE SYL,,,Angelica sylvestris
+ANTE DIO,,,Antennaria dioica
+ANTH LIL,,,Anthericum liliago
+ANTH ODO,,,Anthoxanthum odoratum
+ANTH RAM,,,Anthericum ramosum
+ANTH SYL,,,Anthriscus sylvestris
+APOS FOE,,,Aposeris foetida
+AQUATRA,,,Aquilegia atrata
+AQUI VUL,,,Aquilegia vulgaris
+AQUILEGZ,,,Aquilegia sp.
+ARAB ALP,,,Arabis alpina
+ARBU UNE,Arbutus,unedo,Arbutus unedo
+ARCT UVA,,,Arctostaphylos uva-ursi
+AREM AGR,Aremonia,agrimonoides,Aremonia agrimonoides
+AREN SER,,,Arenaria serpyllifolia
+ARIS PRO,Arisarum,proboscideum,Arisarum proboscideum
+ARIS ROT,Aristolochia,rotunda,Aristolochia rotunda
+ARNI MON,,,Arnica montana
+ARRH ELA,,,Arrhenatherum elatius
+ARUM MAC,,,Arum maculatum
+ARUM PRO,,,
+ARUN DIO,,,Aruncus dioicus
+AS TR.QU,,,Asplenium trichomanes
+ASAR EUR,,,Asarum europaeum
+ASPA ACU,Asparagus,acutifolius,Asparagus acutifolius
+ASPH ALB,,,
+ASPL ONO,Asplenium,onopteris,Asplenium onopteris
+ASPL RUT,,,Asplenium ruta-muraria
+ASPL TRI,,,Asplenium trichomanes
+ASPL VIR,,,Asplenium viride
+ASTBELL,,,ASTER BELLIDIASTRUM
+ASTR MAJ,,,Astrantia major
+ASTR MIN,Astrantia,minor,Astrantia minor
+ATHAMCRE,,,Athamanta cretensis
+ATHY DIS,,,Athyrium distentifolium
+ATHY FIL,,,Athyrium filix-femina
+ATRO BEL,,,Atropa bella-donna
+BALL NIG,,,Ballota nigra
+BARB VUL,,,Barbarea vulgaris
+BE PU.TO,,,Betula pubescens ssp. tortuosa
+BELL PER,,,Bellis perennis
+BERB VUL,,,Berberis vulgaris
+BETO OFF,,,Betonica officinalis
+BETOALO,,,Betonica alopecuros
+BETU NAN,,,Betula nana
+BETU PEN,,,Betula pendula
+BETU PUB,,,Betula pubescens
+BETULA Z,,,Betula sp.
+BISCULAE,,,Biscutella laevigata ssp. austriaca
+BLEC SPI,,,Blechnum spicant
+BRAC PIN,,,Brachypodium pinnatum
+BRAC RUP,,,Brachypodium rupestre
+BRAC SYL,,,Brachypodium sylvaticum
+BROM BEN,,,Bromus benekeni
+BROM RAM,,,Bromus ramosus
+BUGL PUR,Buglossoides,purpurocaerulea,Buglossoides purpurocaerulea
+BUPHSALI,,,BUPHTHALMUM SALICIFOLIUM
+C BRIZOI,,,Carex brizoides
+C CANESC,,,Carex canescens
+C CARYO,,,Carex caryophyllea
+C DEMISS,,,Carex demissa
+C DIGITA,,,Carex digitata
+C DISTAN,,,Carex distans
+C DISTIC,,,Carex disticha
+C ECHINA,,,Carex echinata
+C FLACCA,,,Carex flacca
+C FLAVA,,,Carex flava
+C GLOBUL,,,Carex globularis
+C HIRTA,,,Carex hirta
+C LASIOC,,,Carex lasiocarpa
+C LEPIDO,,,Carex lepidocarpa
+C LEPORI,,,Carex leporina
+C LIMOSA,,,Carex limosa
+C MAGELL,,,Carex magellanica
+C MICHEL,,,Carex michelii
+C MONTAN,,,Carex montana
+C MURICA,,,Carex muricata
+C NIGRA,,,Carex nigra
+C OLBIE,Carex,olbiensis,Carex olbiensis
+C ORNITH,,,Carex ornithopoda
+C OVALIS,,,Carex ovalis
+C PALLES,,,Carex pallescens
+C PANICE,,,Carex panicea
+C PAUCIF,,,Carex pauciflora
+C PENDUL,,,Carex pendula
+C PILULI,,,Carex pilulifera
+C PRAECO,,,Carex praecox
+C REMOTA,,,Carex remota
+C ROSTRA,,,Carex rostrata
+C SPICAT,,,Carex spicata
+C SYLVAT,,,Carex sylvatica
+C TUMIDI,,,Carex tumidicarpa
+C VAGINA,,,Carex vaginata
+CALA ARU,,,Calamagrostis arundinacea
+CALA CAN,,,Calamagrostis canescens
+CALA EPI,,,Calamagrostis epigeios
+CALA LAP,,,Calamagrostis lapponica
+CALA PUR,,,Calamagrostis purpurea
+CALA VAR,,,Calamagrostis varia
+CALA VIL,Calamagrostis,villosa,Calamagrostis villosa
+CALAMAGZ,,,CALAMAGROSTIS SP.
+CALL PST,,,Calla palustris
+CALL VUL,,,Calluna vulgaris
+CALT PAL,,,Caltha palustris
+CALYCSTI,,,Calycocorsus stipitatus
+CAMCESP,,,Campanula cespitosa
+CAMP BAR,,,Campanula barbata
+CAMP GLO,,,Campanula glomerata
+CAMP PAT,,,Campanula patula
+CAMP PER,,,Campanula persicifolia
+CAMP RAU,,,Campanula rapunculus
+CAMP ROI,,,Campanula rapunculoides
+CAMP ROT,,,Campanula rotundifolia
+CAMP SCH,,,Campanula scheuchzeri
+CAMP TRA,,,Campanula trachelium
+CARALBA,,,Carex alba
+CARBIBI,,,Carlina biebersteinii
+CARBRAC,,,Carex brachystachys
+CARD ACA,,,Carduus acanthoides
+CARD AMA,,,Cardamine amara
+CARD BUL,,,Cardamine bulbifera
+CARD CHE,Cardamine,chelidonia,Cardamine chelidonia
+CARD CRI,,,Carduus crispus
+CARD FLE,,,Cardamine flexuosa
+CARD HEP,Cardamine,heptaphylla,Cardamine heptaphylla
+CARD PRA,,,Cardamine pratensis
+CARDEDE,,,Carduus defloratus
+CARE PIL,,,Carex pilosa
+CAREX  Z,,,Carex sp.
+CARFERR,,,Carex ferruginea
+CARFIRM,,,Carex firma
+CARFLAE,,,Carex flavella
+CARHUMI,,,Carex humilis
+CARL ACA,,,Carlina acaulis
+CARP BET,,,Carpinus betulus
+CARTRIF,,,Cardamine trifolia
+CARUMBR,,,Carex umbrosa
+CAST SAT,,,Castanea sativa
+CE ER,,,
+CENT MON,,,Centaurea montana
+CEPH LON,,,Cephalanthera longifolia
+CEPH RUB,,,Cephalanthera rubra
+CEPHLERZ,,,CEPHALANTHERA SP.
+CERA HOL,,,Cerastium holosteoides
+CHAE AUR,,,Chaerophyllum aureum
+CHAE HIR,,,Chaerophyllum hirsutum
+CHAM ANG,,,Chamaenerion angustifolium
+CHAM CAL,,,Chamaedaphne calyculata
+CHAMSUPI,,,Chamaecytisus supinus
+CHLORSTA,,,Chlorocrepis staticifolia
+CHRY ALT,,,Chrysosplenium alternifolium
+CHRY OPP,,,Chrysosplenium oppositifolium
+CICE ALP,,,Cicerbita alpina
+CICH INT,,,Cichorium intybus
+CIRC ALP,,,Circaea alpina
+CIRC LUT,,,Circaea lutetiana
+CIRERER,,,Cirsium eriophorum
+CIRERIS,,,Cirsium erisithales
+CIRS ACA,,,Cirsium acaule
+CIRS ARV,,,Cirsium arvense
+CIRS HEL,,,Cirsium helenioides
+CIRS PAL,,,Cirsium palustre
+CIRS VUL,,,Cirsium vulgare
+CIRSIUMZ,,,Cirsium sp.
+CLEM ALP,,,Clematis alpina
+CLEM VIT,,,Clematis vitalba
+CLIN VUL,,,Clinopodium vulgare
+COLC AUT,,,Colchicum autumnale
+COLU ARB,,,Colutea arborescens
+CONO MAJ,,,Conopodium majus
+CONV MAJ,,,Convallaria majalis
+CORA TRI,,,Corallorhiza trifida
+CORN MAS,,,Cornus mas
+CORN SAN,,,Cornus sanguinea
+CORN SUE,,,Cornus suecica
+CORO EME,,,Coronilla emerus
+CORY AVE,,,Corylus avellana
+CORY CAV,,,Corydalis cava
+COTO INT,,,Cotoneaster integerrimus
+COTO TOM,,,Cotoneaster tomentosus
+CRASSULZ,,,Crassula sp.
+CRAT LAE,,,Crataegus laevigata
+CRAT MON,,,Crataegus monogyna
+CRAT OXY,,,Crataegus oxy
+CREP LEO,Crepis,leontodontoides,Crepis leontodontoides
+CREP PAL,,,Crepis paludosa
+CRUC GLA,Cruciata,glabra,Cruciata glabra
+CRUC LAE,,,Cruciata laevipes
+CYCL HER,,,
+CYCL REP,Cyclamen,repandum,Cyclamen repandum
+CYCPURP,,,Cyclamen purpurascens
+CYST FRA,,,Cystopteris fragilis
+CYTI SCO,,,Cytisus scoparius
+CYTI SES,Cytisus,sessilifolius,Cytisus sessilifolius
+DABO CAN,,,
+DACT FUC,,,Dactylorhiza fuchsii
+DACT GLO,,,Dactylis glomerata
+DACT MAC,,,Dactylorhiza maculata
+DACT MAJ,,,Dactylorhiza majalis
+DACTYLIZ,,,Dactylis sp.
+DANT DEC,,,Danthonia decumbens
+DAPH LAU,,,Daphne laureola
+DAPH MEZ,,,Daphne mezereum
+DENENNE,,,Dentaria enneaphyllos
+DENGLAN,,,Cardamine glandulifera
+DENT BUL,,,Dentaria bulbifera
+DESC CES,,,Deschampsia cespitosa
+DESC FLE,,,Deschampsia flexuosa
+DIANTALP,,,Dianthus alpinus
+DIGI GRA,,,Digitalis grandiflora
+DIGI LUT,,,Digitalis lutea
+DIGI MIC,,,
+DIGI PUR,,,Digitalis purpurea
+DORO AUS,,,Doronicum austriacum
+DRCAR*AS,,,Dryopteris sarvelae
+DROS ANG,,,Drosera anglica
+DROS ROT,,,Drosera rotundifolia
+DRYO AFF,,,Dryopteris affinis
+DRYO ASS,,,Dryopteris assimilis
+DRYO BOR,,,Dryopteris borreri
+DRYO CAR,,,Dryopteris carthusiana
+DRYO DIL,,,Dryopteris dilatata
+DRYO EXP,,,Dryopteris expansa
+DRYO FIL,,,Dryopteris filix-mas
+DRYO PSE,,,Dryopteris pseudomas
+ELYM CAI,,,Elymus caninus
+EMPE HER,,,Empetrum hermaphroditum
+EMPE NIG,,,Empetrum nigrum
+EPIL ANG,,,Epilobium angustifolium
+EPIL MON,,,Epilobium montanum
+EPIL PAR,,,Epilobium parviflorum
+EPILOBIZ,,,Epilobium sp.
+EPIP ATR,,,Epipactis atrorubens
+EPIP HEL,,,Epipactis helleborine
+EPIP MIC,,,
+EPIP MUE,Epipactis,muelleri,Epipactis muelleri
+EPIPACTZ,,,EPIPACTIS SP.
+EQUI ARV,,,Equisetum arvense
+EQUI PAL,,,Equisetum palustre
+EQUI SYL,,,Equisetum sylvaticum
+ERIC ARB,Erica,arborea,Erica arborea
+ERIC CIN,,,Erica cinerea
+ERIC VAG,,,Erica vagans
+ERIHERB,,,Erica herbacea
+ERIO ANG,,,Eriophorum angustifolium
+ERIO VAG,,,Eriophorum vaginatum
+EUON EUR,,,Euonymus europaeus
+EUONYVER,,,Euonymus verrucosus
+EUPA CAN,,,Eupatorium cannabinum
+EUPH AMY,Euphorbia,amygdaloides,Euphorbia amygdaloides
+EUPH COR,Euphorbia,corallioides,Euphorbia corallioides
+EUPH CYP,,,Euphorbia cyparissias
+EUPH DUL,,,Euphorbia dulcis
+EUPH ROS,,,Euphrasia rostkoviana
+EUPH SAL,,,Euphrasia salisburgensis
+FAGU SYL,,,Fagus sylvatica
+FE RU.RU,,,Festuca rubra ssp. rubra
+FESAMAM,,,Festuca amethystina
+FEST ALT,,,Festuca altissima
+FEST DRY,Festuca,drymeja,Festuca drymeja
+FEST GIG,,,Festuca gigantea
+FEST HET,,,Festuca heterophylla
+FEST PRA,,,Festuca pratensis
+FEST RUB,,,Festuca rubra
+FESTGUEST,,,Festuca guestphalica
+FESTRUPI,,,Festuca rupicola
+FESTUCAZ,,,FESTUCA SP.
+FILI ULM,,,Filipendula ulmaria
+FISS DUB,,,Fissidens dubius
+FRAG MOS,,,Fragaria moschata
+FRAG VES,,,Fragaria vesca
+FRAG VRD,,,Fragaria viridis
+FRAN ALN,,,Frangula alnus
+FRAX EXC,,,Fraxinus excelsior
+FRAX ORN,Fraxinus,ornus,Fraxinus ornus
+GALE LUT,,,Galeobdolon luteum
+GALE SPE,,,Galeopsis speciosa
+GALE TET,,,Galeopsis tetrahit
+GALEOPSZ,,,GALEOPSIS SP.
+GALEPUBE,,,Galeopsis pubescens
+GALI ALB,,,Galium album
+GALI APA,,,Galium aparine
+GALI MOL,,,Galium mollugo
+GALI ODO,,,Galium odoratum
+GALI PAL,,,Galium palustre
+GALI ROT,,,Galium rotundifolium
+GALI SAX,,,Galium saxatile
+GALI SYL,,,Galium sylvaticum
+GALI VER,,,Galium verum
+GALIUM Z,,,GALIUM SP.
+GALLUCI,,,Galium lucidum
+GALTRUN,,,Galium truniacum
+GENASCL,,,Gentiana asclepiadea
+GENCLUS,,,Gentiana clusii
+GENI GER,,,Genista germanica
+GENI PIL,,,Genista pilosa
+GENI TIN,,,Genista tinctoria
+GENT PUR,,,Gentiana purpurea
+GENTCILI,,,Gentianella ciliata
+GENTIAAZ,,,GENTIANA SP.
+GERA NOD,Geranium,nodosum,Geranium nodosum
+GERA PHA,,,Geranium pha
+GERA ROB,,,Geranium robertianum
+GERA SYL,,,Geranium sylvaticum
+GERA VER,Geranium,versicolor,Geranium versicolor
+GEUM RIV,,,Geum rivale
+GEUM URB,,,Geum urbanum
+GOOD REP,,,Goodyera repens
+GROD DIK,,,
+GYMN CON,,,Gymnadenia conopsea
+GYMN DRY,,,Gymnocarpium dryopteris
+GYMN ROB,,,Gymnocarpium robertianum
+HE SP.SP,,,Heracleum sphondylium
+HEDE HEL,,,Hedera helix
+HELL BOC,Helleborus,bocconei,Helleborus bocconei
+HELL FOE,,,Helleborus foetidus
+HELL NIG,,,Helleborus niger
+HELL VIR,,,Helleborus viridis
+HEPA NOB,,,Hepatica nobilis
+HERA SPH,,,Heracleum sphondylium
+HERAUAU,,,Heracleum austriacum
+HIEBIFI,,,Hieracium bifidum
+HIEPORR,,,Hieracium porrifolium
+HIER MUR,,,Hieracium murorum
+HIER PRE,Hieracium,prenanthoides group,Hieracium prenanthoides group
+HIER RAC,Hieracium,racemosum group,Hieracium racemosum group
+HIER SYL,,,Hieracium sylvaticum
+HIER UMB,,,Hieracium umbellatum
+HIER VTM,,,Hieracium vulgatum
+HIER/GLAI,,,Hieracium glaucinum
+HIER/MAC,,,Hieracium maculatum
+HIER/PLA,,,Hieracium platyphyllum
+HIER/RAC,,,Hieracium racemosum
+HIER/SAB,,,Hieracium sabaudum
+HIER/SIL,,,Hieracium silvaticiformia
+HIER/VUL,,,Hieracium vulgatiformia
+HIERACIZ,,,HIERACIUM SP.
+HOLC LAN,,,Holcus lanatus
+HOLC MOL,,,Holcus mollis
+HOMOALPI,,,Homogyne alpina
+HORD EUR,,,Hordelymus europaeus
+HORM PYR,,,Horminium pyrenaicum
+HUPE SEL,,,Huperzia selago
+HYPE AND,,,Hypericum androsaemum
+HYPE HIR,,,Hypericum hirsutum
+HYPE MAC,,,Hypericum maculatum
+HYPE MON,,,Hypericum montanum
+HYPE PER,,,Hypericum perforatum
+HYPE PUL,,,Hypericum pulchrum
+HYPERICZ,,,Hypericum sp.
+HYPMAMA,,,Hypericum maculatum
+HYPPEPE,,,Hypericum perforatum
+ILEX AQU,,,Ilex aquifolium
+IMPA NOL,,,Impatiens noli-tangere
+INUL CON,,,Inula conyza
+JU CO.CO,,,Juniperus communis
+JUGL REG,,,Juglans regia
+JUNC ART,,,Juncus articulatus
+JUNC EFF,,,Juncus effusus
+JUNC FIL,,,Juncus filiformis
+JUNC INF,,,Juncus inflexus
+JUNC TRI,,,Juncus trifidus
+JUNI COM,,,Juniperus communis
+KERSAXA,,,Kernera saxatilis
+KNADIPS,,,Knautia dipsacifolia
+KNAUDRYM,,,Knautia drymeia
+LABU ALP,,,Laburnum alpinum
+LABU ANA,,,Laburnum anagyroides
+LACT ALP,,,Lactuca alpina
+LAMI FLE,Lamium,flexuosum,Lamium flexuosum
+LAMI GAL,,,Lamiastrum galeobdolon
+LAMI MAC,,,Lamium maculatum
+LARI DEC,,,Larix decidua
+LARI EUR,,,Larix eurolepis
+LASE LAT,,,Laserpitium latifolium
+LATH CLA,,,
+LATH LAT,,,Lathyrus latifolius
+LATH LIN,,,Lathyrus linifolius
+LATH NIG,,,Lathyrus niger
+LATH PRA,,,Lathyrus pratensis
+LATH SYL,,,Lathyrus sylvestris
+LATH VEN,Lathyrus,venetus,Lathyrus venetus
+LATH VER,,,Lathyrus vernus
+LAUR NOB,Laurus,nobilis,Laurus nobilis
+LEDU PAL,,,Ledum palustre
+LEOINCA,,,Leontodon incanus
+LEON HIS,,,Leontodon hispidus
+LEUC ALB,,,Leucorchis albida
+LEUC VUL,,,Leucanthemum vulgare
+LIGU VUL,,,Ligustrum vulgare
+LILI BUL,,,Lilium bulbiferum
+LILI MAR,,,Lilium martagon
+LINA VUL,,,Linaria vulgaris
+LINARALP,,,Linaria alpina
+LINN BOR,,,Linnaea borealis
+LINU CAT,,,Linum catharticum
+LIST COR,,,Listera cordata
+LIST OVA,,,Listera ovata
+LOIS PRO,,,Loiseleuria procumbens
+LONALPI,,,Lonicera alpigena
+LONI CAP,,,Lonicera caprifolium
+LONI NIG,Lonicera,nigra,Lonicera nigra
+LONI PER,,,Lonicera periclymenum
+LONI XYL,,,Lonicera xylosteum
+LORO HIR,,,
+LOTU COR,,,Lotus corniculatus
+LUZLUZI,Luzula,luzulina,Luzula luzulina
+LUZU CAM,,,Luzula campestris
+LUZU FOR,Luzula,forsteri,Luzula forsteri
+LUZU LUZ,,,Luzula luzuloides
+LUZU MUL,,,Luzula multiflora
+LUZU NIV,Luzula,nivea,Luzula nivea
+LUZU PIL,,,Luzula pilosa
+LUZU SIE,Luzula,sieberi,Luzula sieberi
+LUZU SYL,,,Luzula sylvatica
+LYCH FLC,,,Lychnis flos-cuculi
+LYCO ANN,,,Lycopodium annotinum
+LYCO CLA,,,Lycopodium clavatum
+LYCO COM,,,Lycopodium complanatum
+LYCO SEL,,,Lycopodium selago
+LYSI NEM,,,Lysimachia nemorum
+LYSI PUN,,,Lysimachia punctata
+LYSI THY,,,Lysimachia thyrsiflora
+MAIABIFO,,,Maianthemum bifolium
+MAJA BIF,,,Majanthemum bifolium
+MALU SYL,,,Malus sylvestris
+MATT STR,,,Matteuccia struthiopteris
+MELA ARV,,,Melampyrum arvense
+MELA CRI,,,Melampyrum cristatum
+MELA PRA,,,Melampyrum pratense
+MELA SYL,,,Melampyrum sylvaticum
+MELAMPYZ,,,Melapyrum sp.
+MELI MEL,Melittis,melissophyllum,Melittis melissophyllum
+MELI NUT,,,Melica nutans
+MELI UNI,,,Melica uniflora
+MELMECA,,,Melitis melissophyllum
+MENT LON,,,Mentha longifolia
+MENY TRI,,,Menyanthes trifoliata
+MERC PER,,,Mercurialis perennis
+MESP GER,Mespilus,germanica,Mespilus germanica
+MILI EFF,,,Milium effusum
+MOEH TRI,,,Moehringia trinervia
+MOEMUSC,,,Moehringia muscosa
+MOLI CAE,,,Molinia caerulea
+MONO HYS,,,Monotropa hypopitys
+MYCE MUR,,,Mycelis muralis
+MYOS ARV,,,Myosotis arvensis
+MYOS NEM,,,Myosotis nemorosa
+MYOS PAL,,,Myosotis palustris
+MYOS SCO,,,Myosotis scorpioides
+MYOS SYL,,,Myosotis sylvatica
+MYRT COM,Myrtus,communis,Myrtus communis
+NARD STR,,,Nardus stricta
+NEOT NID,,,Neottia nidus-avis
+OENA PIM,,,
+OENA PIN,,,
+ORCH LAT,,,
+ORIG VUL,,,Origanum vulgare
+OROB RET,,,Orobanche reticulata
+OROBANCZ,,,Orobanche sp.
+OROFLAV,,,Orobanche flava
+ORTH SEC,,,Orthilia secunda
+OSTR CAR,Ostrya,carpinifolia,Ostrya carpinifolia
+OXAL ACE,,,Oxalis acetosella
+PARI QUA,,,Paris quadrifolia
+PELT SPE,,,Peltigera sp.
+PETA ALB,,,Petasites albus
+PETA HYB,,,Petasites hybridus
+PETPARA,,,Petasites paradoxus
+PEUAUST,,,Peucedanum austriacum
+PEUC OST,,,Peucedanum ostruthium
+PEUCCERV,,,Peucedanum cervaria
+PH SP.SP,,,Phyteuma spicatum
+PHEG POL,,,
+PHIL LAT,Phillyrea,latifolia,Phillyrea latifolia
+PHLE ALP,,,Phleum alpinum
+PHLE PRA,,,Phleum pratense
+PHYL CAE,,,Phyllodoce caerulea
+PHYORBI,,,Phyteuma orbiculare
+PHYS COR,Physospermum,cornubiense,Physospermum cornubiense
+PHYT BET,Phyteuma,betonicifolium,Phyteuma betonicifolium
+PHYT OVA,Phyteuma,ovatum,Phyteuma ovatum
+PHYT SPI,,,Phyteuma spicatum
+PICE ABI,,,Picea abies
+PIMP MAJ,,,Pimpinella major
+PING ALP,,,Pinguicula alpina
+PING VIL,,,Pinguicula villosa
+PINU CEM,,,Pinus cembra
+PINU PIN,Pinus,pinaster,Pinus pinaster
+PINU STR,,,Pinus strobus
+PINU SYL,,,Pinus sylvestris
+PLAT BIF,,,Platanthera bifolia
+PLAT CHL,,,Platanthera chlorantha
+PLATANT Z,,,Platanthera sp.
+POA    Z,,,POA SP.
+POA  ANG,,,Poa angustifolia
+POA  ANN,,,Poa annua
+POA  NEM,,,Poa nemoralis
+POA  PRA,,,Poa pratensis
+POLAMBR,,,Polygala amara ssp. brachyptera
+POLCHAM,,,Polygala chamaebuxus
+POLY ACU,,,Polystichum aculeatum
+POLY AM,,,Polygala amara
+POLY BIS,,,Polygonum bistorta
+POLY LON,,,Polystichum lonchitis
+POLY MUL,,,Polygonatum multiflorum
+POLY ODO,,,Polygonatum odoratum
+POLY SET,Polystichum,setiferum,Polystichum setiferum
+POLY VER,,,Polygonatum verticillatum
+POLY VIV,,,Polygonum viviparum
+POLY VUE,,,Polypodium vulgare
+POLYGALZ,,,Polygala sp.
+POLYPODZ,,,Polypodium sp.
+POLYTUMZ,,,Polygonatum sp.
+POPU TRA,,,Populus tremula
+POPULUSZ,,,Populus sp.
+POTE ERE,,,Potentilla erecta
+POTE MIC,,,Potentilla micrantha
+POTE PAL,,,Potentilla palustris
+POTE STE,,,Potentilla sterilis
+PREN PUR,,,Prenanthes purpurea
+PRIAUBO,,,Primula auricula
+PRICLUS,,,Primula clusiana
+PRIM ACA,,,
+PRIM ELA,,,Primula elatior
+PRIM VER,,,Primula veris
+PRIM VUL,,,Primula vulgaris
+PRUN AVI,,,Prunus avium
+PRUN PAD,,,Prunus padus
+PRUN SPI,,,Prunus spinosa
+PRUN VUL,,,Prunella vulgaris
+PRUNUS Z,,,Prunus sp.
+PTER AQU,,,Pteridium aquilinum
+PULKERN,,,Pulmonaria kerneri
+PULM APE,,,
+PULM OFF,,,Pulmonaria officinalis
+PULS MON,Pulsatilla,montana,Pulsatilla montana
+PYRO CHL,,,Pyrola chlorantha
+PYRO MIN,,,Pyrola minor
+PYRO ROT,,,Pyrola rotundifolia
+PYROLA Z,,,Pyrola sp.
+PYRU COM,,,Pyrus communis
+PYRU PYR,,,Pyrus pyraster
+PYRUS Z,,,Pyrus sp.
+QUER CER,,,Quercus cerris
+QUER ILE,Quercus,ilex,Quercus ilex
+QUER PET,,,Quercus petraea
+QUER PUB,,,Quercus pubescens
+QUER PYR,,,Quercus pyrenaica
+QUER ROB,,,Quercus robur
+QUER RUB,,,Quercus rubra
+RANU ACR,,,Ranunculus acris
+RANU FIC,,,Ranunculus ficaria
+RANU LAN,,,Ranunculus lanuginosus
+RANU MON,,,Ranunculus monophyllus
+RANU NEM,,,Ranunculus nemorosus
+RANU RNS,,,Ranunculus repens
+RANU SER,,,Ranunculus serpens
+RANU TUB,,,Ranunculus tuberosus
+RANUNCUZ,,,Ranunculus sp.
+REIC*RIV,,,Viola reichenbachiana
+RHAM CAT,,,Rhamnus catharticus
+RHIN MIN,,,Rhinanthus minor
+RHOCHAM,,,Rhodothamnus chamaecistus
+RHOD FER,Rhododendron,ferrugineum,Rhododendron ferrugineum
+RHOHIRS,,,Rhododendron hirsutum
+RIBE UVA,,,Ribes uva-crispa
+ROBI PSE,,,Robinia pseudacacia
+ROSA   Z,,,ROSA SP.
+ROSA CAN,,,Rosa canina
+ROSA SEM,Rosa,sempervirens,Rosa sempervirens
+ROSARVE,Rosa,arvensis,Rosa arvensis
+ROSPEND,Rosa,pendulina,Rosa pendulina
+RUBHIRT,Rubus,hirtus,Rubus hirtus
+RUB HIRT,Rubus,hirtus,Rubus hirtus
+RUBI PER,Rubia,peregrina,Rubia peregrina
+RUBU ARC,,,Rubus arcticus
+RUBU CAE,,,Rubus caesius
+RUBU CHM,,,Rubus chamaemorus
+RUBU IDA,,,Rubus idaeus
+RUBU SAX,,,Rubus saxatilis
+RUBU ULM,,,Rubus ulmifolius
+RUBU/COR,,,Rubus corylifolius
+RUBU/FRU,,,Rubus fruticosus
+RUBUBIFR,,,Rubus bifrons
+RUBUS  Z,,,Rubus sp.
+RUME ALA,,,Rumex acetosella
+RUME ASA,,,Rumex acetosa
+RUME OBT,,,Rumex obtusifolius
+RUSC ACU,Ruscus,aculeatus,Ruscus aculeatus
+RUSC ACU,Ruscus,aculeatus,Ruscus aculeatus
+SALAPPE,,,Salix appendiculata
+SALGLAB,,,Salix glabra
+SALI AUR,,,Salix aurita
+SALI CAP,,,Salix caprea
+SALI CIN,,,Salix cinerea
+SALI GAU,,,Salix glauca
+SALI LAP,,,Salix lapponum
+SALI MFL,,,Salix myrsinifolia
+SALI PHY,,,Salix phylicifolia
+SALI SIL,,,Salix silesiaca
+SALIX  Z,,,Salix sp.
+SALV GLU,,,Salvia glutinosa
+SAMB NIG,,,Sambucus nigra
+SAMB RAC,,,Sambucus racemosa
+SANI EUR,,,Sanicula europaea
+SAXI CUN,Saxifraga,cuneifolia,Saxifraga cuneifolia
+SAXI HIR,,,Saxifraga hirculus
+SCALUCI,,,Scabiosa lucida
+SCHE PAL,,,Scheuchzeria palustris
+SCIL BIF,,,Scilla bifolia
+SCIL LIL,,,Scilla lilio-hyacinthus
+SCIR CES,,,Scirpus cespitosus
+SCIR SYL,,,Scirpus sylvaticus
+SCRO ALP,,,Scrophularia alpestris
+SCRO NOD,,,Scrophularia nodosa
+SCUT COL,Scutellaria,columnae,Scutellaria columnae
+SEDU CEP,Sedum,cepaea,Sedum cepaea
+SELA SEL,,,Selaginella selaginoides
+SENE FUC,,,Senecio fuchsii
+SENE NEM,,,Senecio nemorensis
+SENE SYL,,,Senecio sylvaticus
+SENGEGL,,,Senecio germanicus
+SENSUBA,,,Senecio subalpinus
+SERR TIN,,,Serratula tinctoria
+SESL ALB,,,Sesleria albicans
+SILE DIO,,,Silene dioica
+SILE ITA,,,Silene italica
+SILE VIR,Silene,viridiflora,Silene viridiflora
+SILE VUL,,,Silene vulgaris
+SMIL ASP,Smilax,aspera,Smilax aspera
+SO AU.AU,,,Sorbus aucuparia
+SO VI.VI,,,Solidago virgaurea
+SOLA DUL,,,Solanum dulcamara
+SOLD CAR,,,Soldanella carpatica
+SOLD MON,,,Soldanella montana
+SOLI VIR,,,Solidago virgaurea
+SORAUST,,,Sorbus austriaca
+SORB ARI,,,Sorbus aria
+SORB AUC,,,Sorbus aucuparia
+SORB DOM,Sorbus,domestica,Sorbus domestica
+SORB INT,,,Sorbus intermedia
+SORB TOR,,,Sorbus torminalis
+STAC OFF,,,Stachys officinalis
+STAC PAL,,,Stachys palustris
+STAC SYL,,,Stachys sylvatica
+STEL ALS,,,Stellaria alsine
+STEL GRA,,,Stellaria graminea
+STEL MED,,,Stellaria media
+STEL NEM,,,Stellaria nemorum
+STEL ULI,,,Stellaria uliginosa
+STREAMPL,,,Streptopus amplexifolius
+SYMTUBE,Symphytum,tuberosum,Symphytum tuberosum
+T/OFFICI,,,Taraxacum officinale
+TAMU COM,Tamus,communis,Tamus communis
+TANA COR,,,Tanacetum corymbosum
+TARAXACZ,,,Taraxacum sp.
+TAXU BAC,,,Taxus baccata
+TEUC CHA,,,Teucrium chamaedrys
+TEUC SBI,,,
+TEUC SDO,,,Teucrium scorodonia
+TEUC SIC,,,
+THAL AQU,,,Thalictrum aquilegifolium
+THEL LIM,,,Thelypteris limbosperma
+THEL PHE,,,Thelypteris phegopteris
+THES ALP,,,Thesium alpinum
+THESIUM Z,,,Thesium sp.
+THYM PRA,,,Thymus praecox
+TILI COR,,,Tilia cordata
+TOFI CAL,,,Tofieldia calyculata
+TRIALPE,,,Trisetum alpestre
+TRIE EUR,,,Trientalis europaea
+TRIF HYB,,,Trifolium hybridum
+TRIF OCH,Trifolium,ochroleucon,Trifolium ochroleucon
+TRIF PRA,,,Trifolium pratense
+TRIF REP,,,Trifolium repens
+TRIS FLA,,,Trisetum flavescens
+TROC NOD,Trochiscanthes,nodiflora,Trochiscanthes nodiflora
+TROL EUR,,,Trollius europaeus
+TUSS FAR,,,Tussilago farfara
+ULEX GAL,,,Ulex gallii
+ULMU GLA,,,Ulmus glabra
+ULMU MIN,,,Ulmus minor
+URTI DIO,,,Urtica dioica
+VACC MIC,,,Vaccinium microcarpum
+VACC MYR,,,Vaccinium myrtillus
+VACC OXY,,,Vaccinium oxycoccos
+VACC ULI,,,Vaccinium uliginosum
+VACC VIT,,,Vaccinium vitis-idaea
+VALE TRI,Valeriana,tripteris,Valeriana tripteris
+VALEECAR,,,Valerianella carinata
+VALMONT,,,Valeriana montana
+VALSAXA,,,Valeriana saxatilis
+VALWALL,,,Valeriana wallrothii
+VE SE.SE,,,Veronica serpyllifolia
+VERA ALB,,,Veratrum album
+VERB OFF,,,Verbena officinalis
+VERB THA,,,Verbascum thapsus
+VERO CHA,,,Veronica chamaedrys
+VERO MON,,,Veronica montana
+VERO OFF,,,Veronica officinalis
+VERO SCU,,,Veronica scutellata
+VERO URT,Veronica,urticifolia,Veronica urticifolia
+VERONICZ,,,Veronica sp.
+VEROVIND,,,Veronica vindobonensis
+VIBU LAN,,,Viburnum lantana
+VIBU OPU,,,Viburnum opulus
+VIBU TIN,Viburnum,tinus,Viburnum tinus
+VICI CRA,,,Vicia cracca
+VICI SEP,,,Vicia sepium
+VICIA  Z,,,VICIA SP.
+VINC HIR,,,Vincetoxicum hirundinaria
+VINC MIN,,,Vinca minor
+VIOL ALB,,,Viola alba
+VIOL BIF,,,Viola biflora
+VIOL HIR,,,Viola hirta
+VIOL MIR,,,Viola mirabilis
+VIOL ODO,,,Viola odorata
+VIOL PAL,,,Viola palustris
+VIOL REI,,,Viola reichenbachiana
+VIOL RIV,,,Viola riviniana
+VIOLA  Z,,,VIOLA SP.
+VISC ALB,,,Viscum album
+VISCUM Z,,,VISCUM SP.
+VITI VIN,Vitis,vinifera,Vitis vinifera
+ALE OCHR,Alectoria,ochroleuca,Alectoria ochroleuca
+AMBL SER,Amblystegium,serpens,Amblystegium serpens
+AMBL SERM,,,Amblystegium serpens
+AMBL VAR,Amblystegium,varium,Amblystegium varium
+ANAS CAV,,,Anastrophyllum cavifolium
+ANAS ORC,Anastrepta,orcadensis,Anastrepta orcadensis
+ANASTROZ,,, 
+ANEU PIN,Aneura,pinguis,Aneura pinguis
+ANOM LON,Anomodon,longifolius,Anomodon longifolius
+ATRI TEN,Atrichum,tenellum,Atrichum tenellum
+ATRI UND,Atrichum,undulatum,Atrichum undulatum
+AULA PAL,Aulacomnium,palustre,Aulacomnium palustre
+BAEOMYCZ,Baeomyces,rufus,Baeomyces rufus
+BARB ATT,Barbilophozia,attenuata,Barbilophozia attenuata
+BARB BAR,Barbilophozia,barbata,Barbilophozia barbata
+BARB FLO,Barbilophozia,floerkei,Barbilophozia floerkei
+BARB HAT,Barbilophozia,hatcheri,Barbilophozia hatcheri
+BARB LYC,Barbilophozia,lycopodioides,Barbilophozia lycopodioides
+BARBILOZ,,,Barbilophozia sp.
+BAZZ TRL,Bazzania,tricrenata,Bazzania tricrenata
+BLEP TRI,Blepharostoma,trichophyllum,Blepharostoma trichophyllum
+BRAC MIL,Brachythecium,mildeanum,Brachythecium mildeanum
+BRAC OED,Brachythecium,oedipodium,Brachythecium oedipodium
+BRAC REF,Brachythecium,reflexum,Brachythecium reflexum
+BRAC RUT,Brachythecium,rutabulum,Brachythecium rutabulum
+BRAC SAL,Brachythecium,salebrosum,Brachythecium salebrosum
+BRAC STA,Brachythecium,starkei,Brachythecium starkei
+BRAC VEL,Brachythecium,velutinum,Brachythecium velutinum
+BRACHYTZ,,,Brachythecium sp.
+BRYU CAP,Bryum,capillare,Bryum capillare
+BUXB VIR,Buxbaumia,viridis,Buxbaumia viridis
+CALL COR,Calliergon,cordifolium,Calliergon cordifolium
+CALL STR,Calliergon,stramineum,Calliergon stramineum
+CALY AZU,Calypogeia,azurea,Calypogeia azurea
+CALY INT,Calypogeia,integristipula,Calypogeia integristipula
+CALY MUE,Calypogeia,muelleriana,Calypogeia muelleriana
+CALY NEE,Calypogeia,neesiana,Calypogeia neesiana
+CALY SPH,Calypogeia,sphagnicola,Calypogeia sphagnicola
+CALYPOGZ,,, 
+CAMP STE,Campanula,stenocodon,Campanula stenocodon
+CEPH BIC,Cephalozia,bicuspidata,Cephalozia bicuspidata
+CEPH DIV,Cephaloziella,divaricata,Cephaloziella divaricata
+CEPH PLE,Cephalozia,pleniceps,Cephalozia pleniceps
+CEPH RUB,Cephaloziella,rubella,Cephaloziella rubella
+CEPHALAZ,,,Cephaloziella sp.
+CEPHALEZ,,, 
+CERA PUR,Ceratodon,purpureus,Ceratodon purpureus
+CET CUCU,Cetraria,cucculata,Cetraria cucculata
+CET ERIC,Cetraria,ericetorum,Cetraria ericetorum
+CET ISLA,Cetraria,islandica,Cetraria islandica
+CET NIVA,Cetraria,nivalis,Cetraria nivalis
+CHIL CUS,,,Chiloscyphus cuspidatus
+CHIL LAT,,,Chiloscyphus latifolius
+CHIL PAL,,,Chiloscyphus pallescens
+CHIL POL,Chiloscyphus,polyanthos,Chiloscyphus polyanthos
+CHIL PRO,,,Chiloscyphus profundus
+CHILOSCZ,,, 
+CIRR PIL,Cirriphyllum,piliferum,Cirriphyllum piliferum
+CLA AMAU,Cladonia,amaurocraea,Cladonia amaurocraea
+CLA ARBU,Cladonia,arbuscula,Cladonia arbuscula
+CLA BELL,Cladonia,bellidiflora,Cladonia bellidiflora
+CLA BOTR,Cladonia,botrytes,Cladonia botrytes
+CLA CARN,Cladonia,carneola,Cladonia carneola
+CLA CENO,Cladonia,cenotea,Cladonia cenotea
+CLA CHLO,Cladonia,chlorophaea,Cladonia chlorophaea
+CLA COCC,Cladonia,coccifera,Cladonia coccifera
+CLA CONR,,,Cladonia coniocraea
+CLA CORN,Cladonia,cornuta,Cladonia cornuta
+CLA CRIS,Cladonia,crispata,Cladonia crispata
+CLA CYAN,,,Cladonia cyathomorpha
+CLA DEFO,Cladonia,deformis,Cladonia deformis
+CLA DIGI,Cladonia,digitata,Cladonia digitata
+CLA FIMB,Cladonia,fimbriata,Cladonia fimbriata
+CLA FURC,Cladonia,furcata,Cladonia furcata
+CLA GRAC,Cladonia,gracilis,Cladonia gracilis
+CLA MACE,,,Cladonia macroceras
+CLA MACI,Cladonia,macilenta,Cladonia macilenta
+CLA MACP,,,Cladonia macrophylla
+CLA OCHR,,,Cladonia ochrochlora 
+CLA ORAN,,,Cladonia rangiferina
+CLA PHYL,Cladonia,phyllophora,Cladonia phyllophora
+CLA PLEU,Cladonia,pleurota,Cladonia pleurota
+CLA PYXI,Cladonia,pyxidata,Cladonia pyxidata
+CLA SQUA,Cladonia,squamosa,Cladonia squamosa
+CLA STEL,Cladonia,stellaris,Cladonia stellaris
+CLA SULP,Cladonia,sulphurina,Cladonia sulphurina
+CLA UNCI,Cladonia,uncialis,Cladonia uncialis
+CLADON1Z,,,Cladonia sp.
+CLADONIZ,,,Cladonia sp.
+CTEN MOL,Ctenidium,molluscum,Ctenidium molluscum
+DICR ACU,Dicranum,acutifolium,Dicranum acutifolium
+DICR AFF,,,Dicranum affine
+DICR BON,Dicranum,bonjeanii,Dicranum bonjeanii
+DICR BRE,Dicranum,brevifolium,Dicranum brevifolium
+DICR DEN,,,Dicranum densifolium
+DICR DRU,Dicranum,drummondii,Dicranum drummondii
+DICR FLE,Dicranum,flexicaule,Dicranum flexicaule
+DICR FUS,Dicranum,fuscescens,Dicranum fuscescens
+DICR HET,,,Dicranella heteromalla
+DICR MAJ,Dicranum,majus,Dicranum majus
+DICR MON,,,Dicranum montanum
+DICR MXS,,, 
+DICR POL,Dicranum,polysetum,Dicranum polysetum
+DICR SCP,Dicranum,scoparium,Dicranum scoparium
+DICR SPA,Dicranum,spadiceum,Dicranum spadiceum
+DICRANUZ,,, 
+DIPL ALB,Diplophyllum,albicans,Diplophyllum albicans
+DITR PAL,Ditrichum,pallidum,Ditrichum pallidum
+DREP UNC,Drepanocladus,uncinatus,Drepanocladus uncinatus
+EURH ANG,Eurhynchium,angustirete,Eurhynchium angustirete
+EURH PUL,Eurhynchium,pulchellum,Eurhynchium pulchellum
+EURH STM,Eurhynchium,striatulum,Eurhynchium striatulum
+FISS DUB,Fissidens,dubius,Fissidens dubius
+FISS TAX,Fissidens,taxifolius,Fissidens taxifolius
+FISSIDEZ,,, 
+HARP FLO,Harpanthus,flotovianus,Harpanthus flotovianus
+HEPATICE,,, 
+HERZ SEL,Herzogiella,seligeri,Herzogiella seligeri
+HYLO SPL,Hylocomium,splendens,Hylocomium splendens
+HYLO UMB,Hylocomium,umbratum,Hylocomium umbratum
+HYP PHYS,,,Hypogymnia physodes
+HYPN CUP,Hypnum,cupressiforme,Hypnum cupressiforme
+HYPN JUT,Hypnum,jutlandicum,Hypnum jutlandicum
+HYPN PAL,Hypnum,pallescens,Hypnum pallescens
+HYPN REC,Hypnum,recurvatum,Hypnum recurvatum
+ICM ERIC,Icmadophila,ericetorum,Icmadophila ericetorum
+ISOT ALO,Isothecium,alopecuroides,Isothecium alopecuroides
+JAME AUT,Jamesoniella,autumnalis,Jamesoniella autumnalis
+LEPI REP,,,Lepidozia reptans
+LOPH ASC,Lophozia,ascendens,Lophozia ascendens
+LOPH BIC,Lophozia,bicrenata,Lophozia bicrenata
+LOPH BID,,,Lophocolea bidentata
+LOPH HEP,,,Lophocolea heterophylla
+LOPH OBT,Lophozia,obtusa,Lophozia obtusa
+LOPH OPA,Lophozia,opacifolia,Lophozia opacifolia
+LOPH SIL,,,Lophozia silvicola
+LOPH SUD,Lophozia,sudetica,Lophozia sudetica
+LOPH VEN,Lophozia,ventricosa,Lophozia ventricosa
+LOPH WEN,Lophozia,wenzelii,Lophozia wenzelii
+LOPHCILI,,, 
+LOPHOCOZ,,, 
+LOPHOZIZ,,, 
+MARCHIDA,,, 
+MARS EMA,Marsupella,emarginata,Marsupella emarginata
+MNIU HOR,Mnium,hornum,Mnium hornum
+MNIU SPO,,,Mnium spinosum
+MNIUM  Z,,, 
+MYLI ANO,Mylia,anomala,Mylia anomala
+NEP ARCT,Nephroma,arcticum,Nephroma arcticum
+OCH FRIG,,,Ochrolechia frigida
+ORTH MON,,,Orthodicranum montanum
+PARA LON,Paraleucobryum,longifolium,Paraleucobryum longifolium
+PEL APHT,Peltigera,aphthosa,Peltigera aphthosa
+PEL MALA,Peltigera,malacea,Peltigera malacea
+PEL POLY,Peltigera,polydactylon,Peltigera polydactylon
+PEL SCAA,Peltigera,scabrosa,Peltigera scabrosa
+PELT SPE,,, 
+PELTIGEZ,,, 
+PLA GLAU,,,Platismatia glauca
+PLAG AFF,Plagiomnium,affine,Plagiomnium affine
+PLAG ASP,,,Plagiochila asplenioides
+PLAG CUR,Plagiothecium,curvifolium,Plagiothecium curvifolium
+PLAG CUS,Plagiomnium,cuspidatum,Plagiomnium cuspidatum
+PLAG DEN,Plagiothecium,denticulatum,Plagiothecium denticulatum
+PLAG LAE,Plagiothecium,laetum,Plagiothecium laetum
+PLAG POR,,,Plagiochila porelloides
+PLAG UNM,,,Plagiomnium undulatum
+PLAG UNT,,,Plagiothecium undulatum
+PLAGIOTZ,,, 
+PLAT REP,Platygyrium,repens,Platygyrium repens
+PLEU ACU,Pleuridium,acuminatum,Pleuridium acuminatum
+PLEU SCH,Pleurozium,schreberi,Pleurozium schreberi
+POGO ALO,Pogonatum,aloides,Pogonatum aloides
+POHL NUT,Pohlia,nutans,Pohlia nutans
+POHL SPH,Pohlia,sphagnicola,Pohlia sphagnicola
+POHLIA Z,,, 
+POLY COM,Polytrichum,commune,Polytrichum commune
+POLY FOR,Polytrichum,formosum,Polytrichum formosum
+POLY JUN,Polytrichum,juniperinum,Polytrichum juniperinum
+POLY PIL,Polytrichum,piliferum,Polytrichum piliferum
+POLY STR,Polytrichum,strictum,Polytrichum strictum
+PTIL CIL,Ptilidium,ciliare,Ptilidium ciliare
+PTIL CRI,Ptilium,crista-castrensis,Ptilium crista-castrensis
+PTIL PUL,Ptilidium,pulcherrimum,Ptilidium pulcherrimum
+RACO HET,Racomitrium,heterostichum,Racomitrium heterostichum
+RHIZ PSE,Rhizomnium,pseudopunctatum,Rhizomnium pseudopunctatum
+RHIZ PUN,Rhizomnium,punctatum,Rhizomnium punctatum
+RHOD ROS,Rhodobryum,roseum,Rhodobryum roseum
+RHYN MUR,Rhynchostegium,murale,Rhynchostegium murale
+RHYT LOR,Rhytidiadelphus,loreus,Rhytidiadelphus loreus
+RHYT SQU,Rhytidiadelphus,squarrosus,Rhytidiadelphus squarrosus
+RHYT SUB,Rhytidiadelphus,subpinnatus,Rhytidiadelphus subpinnatus
+RHYT TRI,Rhytidiadelphus,triquetrus,Rhytidiadelphus triquetrus
+SANI UNC,,,Sanionia uncinata
+SCAP IRR,Scapania,irrigua,Scapania irrigua
+SCAP NEM,Scapania,nemorea,Scapania nemorea
+SCAP PAI,,,Scapania paludicola
+SCAPANIZ,,, 
+SCLE PUR,,,Scleropodium purum
+SPH GLOB,,,Sphaerophorus globosus
+SPHA A/F,,, 
+SPHA ANN,Sphagnum,annulatum,Sphagnum annulatum
+SPHA ANU,,,Sphagnum annulatum
+SPHA AUR,,,Sphagnum auriculatum
+SPHA BAL,Sphagnum,balticum,Sphagnum balticum
+SPHA CAP,Sphagnum,capillifolium,Sphagnum capillifolium
+SPHA FAL,Sphagnum,fallax,Sphagnum fallax
+SPHA FUS,Sphagnum,fuscum,Sphagnum fuscum
+SPHA GIR,Sphagnum,girgensohnii,Sphagnum girgensohnii
+SPHA LIN,Sphagnum,lindbergii,Sphagnum lindbergii
+SPHA MAG,Sphagnum,magellanicum,Sphagnum magellanicum
+SPHA PAL,Sphagnum,palustre,Sphagnum palustre
+SPHA PAP,Sphagnum,papillosum,Sphagnum papillosum
+SPHA QUI,Sphagnum,quinquefarium,Sphagnum quinquefarium
+SPHA RIP,Sphagnum,riparium,Sphagnum riparium
+SPHA RUS,Sphagnum,russowii,Sphagnum russowii
+SPHA TER,Sphagnum,teres,Sphagnum teres
+SPHA WAR,Sphagnum,warnstorfii,Sphagnum warnstorfii
+SPHAGNUZ,,, 
+SPLACHNZ,,, 
+STE PASC,Stereocaulon,paschale,Stereocaulon paschale
+STEREOCZ,,, 
+TETR MNI,Tetraplodon,mnioides,Tetraplodon mnioides
+TETR PEL,Tetraphis,pellucida,Tetraphis pellucida
+THUI TAM,Thuidium,tamariscinum,Thuidium tamariscinum
+TORT TOR,Tortella,tortuosa,Tortella tortuosa
+TRIT QUI,Tritomaria,quinquedentata,Tritomaria quinquedentata
