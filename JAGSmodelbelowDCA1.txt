@@ -1,0 +1,45 @@
+model{
+for(i in 1:n) {
+y[i]~dnorm(y.hat[i], tau.lake[lake[i]])
+y.hat[i]<- mu + l[lake[i]] + ye[year[i]] + size[i]*s + latitude[i]*lat +
+Rich[i]*richness + TP[i]*TotP + Alk[i]*Alkal + Temp[i]*temperature
+}
+
+mu ~ dnorm (0, .0001)
+
+for (j in 1:L){
+l[j] ~ dnorm (0, tau.l)
+}
+
+for (k in 1:Y){
+ye[k] ~ dnorm (0, tau.y)
+}
+
+
+for(j in 1:L){
+tau.lake[j]<-pow(sigma.lake[j], -2)
+sigma.lake[j]~dlnorm(mu.Lake.sigma[j], res.tau.lake)
+mu.Lake.sigma[j] <- mu2 + sizemean[j]*smean + latitudemean[j]*latmean +
+richmean[j]*rmean + ALKmean[j]*alkmean + TPmean[j]*tpmean + Tmean[j]*tempmean
+}
+
+res.tau.lake <- pow(res.sigma.lake, -2)
+res.sigma.lake ~ dunif(0, 10)
+tau.l <- pow(sigma.l, -2)
+sigma.l ~ dunif(0, 10)
+tau.y <- pow(sigma.y, -2)
+sigma.y ~ dunif(0, 10)
+mu2 ~ dnorm (0, .0001)
+s ~ dnorm (0, .0001)
+smean ~ dnorm (0, .0001)
+lat ~ dnorm(0, .0001)
+latmean ~ dnorm(0, .0001)
+TotP ~ dnorm(0, .0001)
+Alkal ~ dnorm(0, .0001)
+richness ~ dnorm(0, .0001)
+rmean ~ dnorm(0, .0001)
+alkmean ~ dnorm(0, .0001)
+tpmean ~ dnorm(0, .0001)
+tempmean ~ dnorm(0, .0001)
+temperature ~ dnorm(0, .0001)
+}
