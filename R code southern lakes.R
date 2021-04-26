@@ -13,6 +13,14 @@ ALKmean <- as.vector(tapply(log(InvBel$`Alk/Acid`), factor(InvBel$Lake), mean))
 TPmean <- as.vector(tapply(log(InvBel$`Tot-P`), factor(InvBel$Lake), mean))
 Tmean <- as.vector(tapply(scale(InvBel$WaterTemp), factor(InvBel$Lake), mean))
 
+n.plots<-length(unique(dat$ID_site))#184
+n.obs<-as.vector(table(dat$ID_site))
+canopymean<-as.vector(tapply(dat$sum_canopy, factor(dat$ID_site), mean))
+latitudemean <- as.vector(tapply(scale(dat$latitude), factor(dat$ID_site), mean))
+precipmean <- as.vector(tapply(scale(dat$mean_precip), factor(dat$ID_site), mean))
+NH4mean <- as.vector(tapply(dat$n_nh4, factor(dat$ID_site), mean))
+NO3mean <- as.vector(tapply(dat$n_no3, factor(dat$ID_site), mean))
+Tmean <- as.vector(tapply(scale(dat$mean_temp), factor(dat$ID_site), mean))
 
 size <-log(InvBel$Size)
 latitude <- scale(InvBel$Latfix)
@@ -21,6 +29,12 @@ Alk <- log(InvBel$`Alk/Acid`)
 Rich <- scale(InvBel$Richness)
 Temp <- scale(InvBel$WaterTemp)
 
+canopy <-dat$sum_canopy
+latitude <- scale(dat$latitude)
+NO3 <- dat$n_no3
+NH4 <- dat$n_nh4
+precip <- scale(dat$mean_precip)
+temp <- scale(dat$mean_temp)
 model <- "model{
 for(i in 1:n) {
 y[i]~dnorm(y.hat[i], tau.lake[lake[i]])
@@ -74,21 +88,22 @@ belowDCA1 <- list(y =  InvBel$DCA1,  n = length(InvBel$DCA1), L=n.lakes, Y=23,
                   size=as.vector(size), latitude=as.vector(latitude), TP=as.vector(TP), Alk=as.vector(Alk),
                   Rich=as.vector(Rich), Temp=as.vector(Temp), sizemean=sizemean, latitudemean=latitudemean,
                   richmean=richmean, ALKmean=ALKmean, TPmean=TPmean, Tmean=Tmean)
-jags1 <- jags.model("JAGSmodelbelowDCA1.txt" , data=belowDCA1, n.chains=1, n.adapt=1000)
+jags1 <- jags.model("JAGSmodelbelowDCA1.txt" , data=belowDCA1, n.chains=2, n.adapt=1000)
 smp1 <- coda.samples(jags1, c("mu2", "sigma.lake","res.sigma.lake","s", "lat",
                               "TotP", "Alkal","richness", "smean", "latmean", "rmean",
                               "alkmean", "tpmean", "tempmean","temperature","sigma.l", "sigma.y"),
-                     n.iter = 3050000, thin=3000, burnin=50000, n.chains=1, inits=inits)
+                     n.iter = 3050, thin=3, burnin=50, n.chains=2, inits=inits)
 
 smp2<-as.mcmc(smp1[1])
 CI <- apply(smp2, 2, quantile, c(0.075, 0.925))
 meansmp <- apply(smp2, 2, mean)
-
+MCMCplot(smp1)
 
 ##DCA2
-writeLines(model, "C:/Users/hhen0001/Documents/Stability_BMI_56Lakes/Scripts/JAGSmodelbelowDCA2.txt")
-belowDCA2 <- list(y = InvBel$DCA2,  n = length(InvBel$DCA2), L=n.lakes, Y=23, lake=rep(1:n.lakes, n.obs), year=as.numeric(levels(InvBel$Year))[InvBel$Year]-1994, size=as.vector(size), latitude=as.vector(latitude), TP=as.vector(TP), Alk=as.vector(Alk), Rich=as.vector(Rich), Temp=as.vector(Temp), sizemean=sizemean, latitudemean=latitudemean, richmean=richmean, ALKmean=ALKmean, TPmean=TPmean, Tmean=Tmean)
-jags2 <- jags.model("C:/Users/hhen0001/Documents/Stability_BMI_56Lakes/Scripts/JAGSmodelbelowDCA2.txt" , data=belowDCA2, n.chains=1, n.adapt=1000)
+writeLines(model, "JAGSmodelbelowDCA2.txt")
+belowDCA2 <- list(y = InvBel$DCA2,  n = length(InvBel$DCA2), L=n.lakes, Y=23, lake=rep(1:n.lakes, n.obs),
+                  year=as.numeric(levels(InvBel$Year))[InvBel$Year]-1994, size=as.vector(size), latitude=as.vector(latitude), TP=as.vector(TP), Alk=as.vector(Alk), Rich=as.vector(Rich), Temp=as.vector(Temp), sizemean=sizemean, latitudemean=latitudemean, richmean=richmean, ALKmean=ALKmean, TPmean=TPmean, Tmean=Tmean)
+jags2 <- jags.model("JAGSmodelbelowDCA2.txt" , data=belowDCA2, n.chains=2, n.adapt=1000)
 smp3 <- coda.samples(jags2, c("mu2", "sigma.lake","res.sigma.lake","s", "lat", "TotP", "Alkal","richness", "smean", "latmean", "rmean", "alkmean", "tpmean", "tempmean","temperature","sigma.l", "sigma.y"), n.iter = 3050000, thin=3000, burnin=50000, n.chains=1, inits=inits)
 
 smp4<-as.mcmc(smp3[1])

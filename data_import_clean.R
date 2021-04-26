@@ -22,7 +22,7 @@ IM_locations <-
 
 #-------------------------------------------------#
 
-# #Import VS (circular plots)####
+#Import VS (circular plots)####
 VS <- read_csv("raw_data/ICPIM_VS.csv",
                        col_types = cols(DataProcessingDate = col_skip(),
                                         DataQualityFlag = col_skip(),
@@ -447,13 +447,38 @@ ICPIM_AC_AM_TF$YearMonth <- paste(ICPIM_AC_AM_TF$YearMonth,"15", sep="")
 ICPIM_AC_AM_TF$YearMonth <- ymd(ICPIM_AC_AM_TF$YearMonth)
 #Add column for year only
 ICPIM_AC_AM_TF$survey_year <- year(ICPIM_AC_AM_TF$YearMonth) 
+#rename
+ICPIM_AC_AM_TF <- ICPIM_AC_AM_TF %>% rename(ID_site = AreaCode)
+#add country
+ICPIM_AC_AM_TF <-
+  mutate(ICPIM_AC_AM_TF, country = str_sub(ICPIM_AC_AM_TF$ID_site, 1, 2)) #keep first two letters of country code and use to match
+ICPIM_AC_AM_TF$country <-
+  ICPIM_AC_AM_TF$country %>% str_replace_all(
+    c(
+      "AT" = "Austria",
+      "DE" = "Germany",
+      "DK" = "Denmark",
+      "EE" = "Estonia",
+      "FI" = "Finland",
+      "IT" = "Italy",
+      "LT" = "Lithuania",
+      "LV" = "Latvia",
+      "NO" = "Norway",
+      "PL" = "Poland",
+      "RU" = "Russia",
+      "SE" = "Sweden",
+      "CZ" = "Czech",
+      "ES" = "Spain",
+      "IE" = "Ireland"
+    )
+  )
 
 #Make column ID
 ICPIM_AC_AM_TF <-
   transform(
     ICPIM_AC_AM_TF,
     ID = paste0(
-      ICPIM_AC_AM_TF$AreaCode,
+      ICPIM_AC_AM_TF$ID_site,
       sep = "_",
       ICPIM_AC_AM_TF$survey_year
     )
@@ -461,8 +486,104 @@ ICPIM_AC_AM_TF <-
 
 #Air Chemistry
 IM_AC <- filter(ICPIM_AC_AM_TF, Subprog == "AC")
-#Meterology
-IM_AM <- filter(ICPIM_AC_AM_TF, Subprog == "AM")
-#Throughfall deposition
-IM_TF <- filter(ICPIM_AC_AM_TF, Subprog == "TF")
+#Meterology- temperature
+IM_AM <- filter(ICPIM_AC_AM_TF, Subprog == "AM") %>%
+  filter(ParameterCode == "TEMP")
+#Throughfall deposition N, S, precip
+IM_TF <- filter(ICPIM_AC_AM_TF, Subprog == "TF") %>% 
+  filter(ParameterCode == "NH4N" | ParameterCode == "NO3N" |
+           ParameterCode == "SO4S"| ParameterCode == "PREC")
+
+IM_TF <- select(IM_TF,ID, ID_site,survey_year, country, StationCode,
+                YearMonth, ParameterCode, Value)
+#take monthly mean for variables with more than one measurement in a month recorded
+IM_TF <- IM_TF %>% group_by(ID,country,ID_site,survey_year, YearMonth,StationCode, ParameterCode) %>%
+  summarise_at(vars(Value), funs(mean), na.rm = TRUE) 
+
+#IM data is long, make wide version
+IM_TF <- pivot_wider(IM_TF, names_from = ParameterCode, values_from = Value)
+#monthly precip x TF conc
+IM_dep <- IM_TF %>% 
+  mutate(NH4M = (NH4N*PREC)*0.01) %>% 
+  mutate(NO3M = (NO3N*PREC)*0.01) %>% 
+  mutate(SO4SM = (SO4S*PREC)*0.01)
+# average per site/year combo. First find annual total for each station and then take 
+# mean of station values to get a whole site value.
+IM_dep_means <- IM_dep %>% group_by(ID,ID_site,StationCode,survey_year) %>%
+  summarise_at(vars(NH4M, NO3M, SO4SM), funs(sum), na.rm = TRUE) 
+
+IM_dep_means <- IM_dep_means %>% group_by(ID,ID_site,survey_year) %>%
+  summarise_at(vars(NH4M, NO3M, SO4SM), funs(mean), na.rm = TRUE) 
+
+IM_dep2 <- drop_na(IM_dep_means)
+IM_dep2$survey_year <- NULL
+
+#Temp
+IM_AM <- select(IM_AM,ID, ID_site,survey_year, country, StationCode,
+                YearMonth, ParameterCode, Value)
+#take monthly mean for variables with more than one measurement in a month recorded
+IM_AM <- IM_AM %>% group_by(ID,country,ID_site,survey_year, YearMonth,StationCode, ParameterCode) %>%
+  summarise_at(vars(Value), funs(mean), na.rm = TRUE) 
+IM_AM <- pivot_wider(IM_AM, names_from = ParameterCode, values_from = Value)
+#IM_AM is monthly if you need eg summer vs winter avergae temps
+#make annual mean
+IM_meteo <- IM_AM %>% group_by(ID,ID_site,survey_year) %>%
+  summarise_at(vars(TEMP), funs(mean), na.rm = TRUE) 
+
+#ICP Forests data###
+env_means <- readRDS("~/Documents/r/paper4/Forests_data/env_means_2.RDS")
+veg <- readRDS("~/Documents/r/paper4/Forests_data/veg.RDS")
+veg_vasc <- readRDS("~/Documents/r/paper4/Forests_data/veg_vasc.RDS")
+
+#Scale numeric variables####
+non_nums <- select_if(env_means, negate(is.numeric))
+nums <- as.data.frame(select_if(env_means, is.numeric) %>% scale())
+env_means_scaled <- bind_cols(non_nums, nums)
+
+#create plot ID_site without year
+VF_vasc <- veg_vasc
+#VF_vasc <- mutate(VF_vasc, ID_site = substr(VF_vasc$ID, 6, 12))
+ID_site = substr(VF_vasc$ID, 6, 12)
+VF_vasc$ID_site <- ID_site
+
+VF <- veg
+#VF_vasc <- mutate(VF_vasc, ID_site = substr(VF_vasc$ID, 6, 12))
+ID_site = substr(VF$ID, 6, 12)
+VF$ID_site <- ID_site
+
+VF_vasc <- VF_vasc %>% ungroup() %>% 
+  group_by(survey_year, country, ID_site, ID, species_name) %>%
+  summarise(avg = mean(cover)) %>%
+  spread(species_name, avg) %>% ungroup()
+
+VF <- VF %>% ungroup() %>% 
+  group_by(survey_year, country, ID_site, ID, species_name) %>%
+  summarise(avg = mean(cover)) %>%
+  spread(species_name, avg) %>% ungroup()
+
+#we need the plots that have a time series...
+consistency <- as.data.frame(table(VF$ID_site))
+constant <- filter(consistency, Freq > 2)
+cons_list <- constant$Var1
+VF <- filter(VF, ID_site %in% cons_list)
+
+consistency <- as.data.frame(table(VF_vasc$ID_site))
+constant <- filter(consistency, Freq > 2)
+cons_list <- constant$Var1
+VF_vasc <- filter(VF_vasc, ID_site %in% cons_list)
+
+VF_vasc <- VF_vasc %>% replace(is.na(.), 0)
+VF_vasc <-  VF_vasc[rowSums(VF_vasc[, -c(1:4)]) != 0, ] 
+
+VF <- VF %>% replace(is.na(.), 0)
+VF <-  VF[rowSums(VF[, -c(1:4)]) != 0, ] 
+
+VF_vasc_m <- VF_vasc %>% select(.,-c(1:3))
+VF_m <- VF %>% select(.,-c(1:3))
+
+VF_vasc_m <- column_to_rownames(VF_vasc_m, var="ID")
+VF_m <- column_to_rownames(VF_m, var="ID")
+
+#environmental variables
+dat <- readRDS("Forests_data/dat.RDS")
 

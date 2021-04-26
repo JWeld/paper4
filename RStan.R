@@ -5,30 +5,33 @@ library(broom)
 library(tidybayes)
 library(modelr)
 library(sjPlot)
+library(parallel)
 
 dat1 <- dat
 #N
 
 
 glm1 <- stan_glmer(PC1 ~ n_nh4 * n_no3 + sum_canopy + mean_temp + mean_precip + latitude +
-                       longitude +  (1 |survey_year), 
-                       chains = 2, cores = 6, data = dat, adapt_delta = 0.95)
+                       longitude + survey_year + (1 |ID_site), 
+                       chains = 4, cores = 4, iter= 6000, data = dat, adapt_delta = 0.95)
 
 glm2 <- stan_glmer(PC2 ~ n_nh4 * n_no3 + sum_canopy + mean_temp + mean_precip + latitude +
-                     longitude + (1 |survey_year), #+ (1|ID_site), 
-                   chains = 2, cores = 6, data = dat, adapt_delta = 0.95)
+                     longitude + survey_year + (1|ID_site), 
+                   chains = 4, cores = 4, iter= 6000, data = dat, adapt_delta = 0.95)
 
-
+glm2.5 <- stan_glm(PC2 ~ n_nh4 * n_no3 + sum_canopy + mean_temp + mean_precip + latitude +
+                     longitude + survey_year, 
+                   chains = 4, cores = 4, iter= 6000, data = dat, adapt_delta = 0.95)
 
 #summaries stan
-fit <- glm2
+fit <- glm2.5
 
 launch_shinystan(fit)
 #model comparison
-fit1 <- glm1
-fit2 <- glm2
+fit1 <- glm2
+fit2 <- glm2.5
 
-loo1 <- loo(fit1, cores = 6)
+loo1 <- loo(fit1, cores = 6, k_threshold = 0.7)
 print(loo1)
 loo2 <- loo(fit2, cores = 6)
 print(loo2)

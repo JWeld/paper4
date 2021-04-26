@@ -4,8 +4,8 @@ library(MCMCvis)
 library(tidyverse)
 options(mc.cores = parallel::detectCores())
 #must first read in dat data
-
-dat <- drop_na(dat)
+dat <- readRDS("dat.RDS")
+#dat <- drop_na(dat)
 
 n.plots<-length(unique(dat$ID_site))#184
 n.obs<-as.vector(table(dat$ID_site))
@@ -82,12 +82,15 @@ jags1 <- jags.model("JAGSmodelbelowPCA1.txt" , data=belowPCA1, n.chains=2, n.ada
 smp1 <- coda.samples(jags1, c("mu2", "sigma.plot","res.sigma.plot","s", "lat",
                               "nitrate", "ammonium","precipitation", "cmean", "latmean", "pmean",
                               "NH4mean", "NO3mean", "tempmean","temperature","sigma.l", "sigma.y"),
-                     n.iter = 305000, thin=300, burnin=5000, n.chains=2, inits=inits)
+                     n.iter = 30500, thin=30, burnin=500, n.chains=2, inits=inits)
 
 smp2<-as.mcmc(smp1[1])
 CI <- apply(smp2, 2, quantile, c(0.075, 0.925))
 meansmp <- apply(smp2, 2, mean)
 
+
+MCMCsummary(smp1)
+MCMCplot(smp1, ref_ovl = TRUE, rank=FALSE)
 
 ##PCA2
 writeLines(model, "JAGSmodelbelowPCA2.txt")
@@ -103,10 +106,11 @@ jags2 <- jags.model("JAGSmodelbelowPCA2.txt" , data=belowPCA2, n.chains=2, n.ada
 smp3 <- coda.samples(jags2, c("mu2", "sigma.plot","res.sigma.plot","s", "lat", "TotP",
                               "Alkal","richness", "smean", "latmean", "rmean", "NH4mean",
                               "NO3mean", "tempmean","temperature","sigma.l", "sigma.y"), 
-                     n.iter = 3050000, thin=3000, burnin=50000, n.chains=2, inits=inits)
+                     n.iter = 30500, thin=30, burnin=500, n.chains=2, inits=inits)
 
 smp4<-as.mcmc(smp3[1])
 CI2 <- apply(smp4, 2, quantile, c(0.075, 0.925))
 meansmp2 <- apply(smp4, 2, mean)
 
-MCMCsummary(smp1, round=2)
+MCMCsummary(smp3)
+MCMCplot(smp3, ref_ovl = TRUE, rank=FALSE)
