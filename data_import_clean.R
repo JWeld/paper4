@@ -284,7 +284,8 @@ VG$country <-
       
     )
   )
-
+#drop Russia, only have data for 1 year so no change possible
+VG <- filter(VG, country != "Russia")
 #create variable "ID"
 VG <- transform(VG,ID = paste0(VG$survey_year, sep = "_",  VG$AreaCode))
 #create variable "ID_fine"
@@ -348,6 +349,9 @@ VG_f_wide <- VG_f_wide %>% replace(is.na(.), 0) %>% ungroup()
 VG_g_wide <- VG_ground %>% group_by(ID,ID_fine,ID_fine2) %>%
   tidyr::pivot_wider(names_from = Species, values_from = Cover)
 VG_g_wide <- VG_g_wide %>% replace(is.na(.), 0) %>% ungroup()
+
+VG_g_wide$ID_plot <- as.factor(VG_g_wide$ID_plot)
+VG_g_wide$ID_subplot <- as.factor(VG_g_wide$ID_subplot)
 # VG_g_wide2 <- left_join(VG_g_wide, select(VG_ground,ID_fine2,ID_plot,ID_subplot),by = "ID_fine2") %>% 
 #   select(., ID_plot, ID_subplot, everything())
 
@@ -552,7 +556,28 @@ IM_env <- left_join(IM_dep2, select(IM_meteo, ID, TEMP), by = "ID") %>% ungroup(
   select(., -c(ID_site))
 
 
+#create data - species and environemntal matrixes####
+#There is species data back to 90 but only env data from 98 on...
+test <- left_join(VG_g_wide, IM_env, by = "ID") %>% filter(NH4M > 0) %>% ungroup()
 
+#date range for plots
+last <- test %>% group_by(ID_plot) %>% summarise(last=max(survey_year))
+first <- test %>% group_by(ID_plot) %>% summarise(first=min(survey_year))
+range <- left_join(first, last)
+range <- range %>% mutate(diff= last-first)
+
+#German and Italian have only one year of data, drop them
+droplist <- c()
+test <- filter(test, ID_plot %!in% c("DE01_50", "DE01_60", "IT03_1"))
+
+#make matrix for ordinations
+ordienv <-  select(ungroup(test), ID_fine2, NH4M, NO3M, SO4SM, TEMP, latitude, longitude, 
+                   PREC, survey_year) %>% column_to_rownames(var="ID_fine2")
+ordispe <- select(test, -c(2:7, 331:337)) %>% column_to_rownames(var="ID_fine2")
+ordienv <-  select(test, ID_fine2, NH4M, NO3M, SO4SM, latitude, longitude, 
+                   PREC, survey_year) %>% column_to_rownames(var="ID_fine2")
+ordispe <- as.matrix(ordispe)
+ordienv <- as.matrix(ordienv)
 
 
 #ICP Forests data###

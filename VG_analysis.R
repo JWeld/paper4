@@ -1,77 +1,101 @@
 library(tidyverse)
 library(vegan)
+options(mc.cores = parallel::detectCores())
+
+hell.ordispe <- decostand(ordispe, "hellinger")
 
 #Intensive plots (VG)####
-hell_VG_fm <- decostand(VG_fm, "hellinger") 
-hell_VG_bm <- decostand(VG_bm, "hellinger") 
-hell_VG_gm <- decostand(VG_gm, "hellinger") 
+# hell_VG_fm <- decostand(VG_fm, "hellinger") 
+# hell_VG_bm <- decostand(VG_bm, "hellinger") 
+hell_VG_gm <- decostand(ordispe, "hellinger") 
 
 #DCA
-DCA_f <- decorana(VG_fm, iweigh = 0)
-DCA_b <- decorana(VG_bm, iweigh = 0)
-DCA_g <- decorana(VG_gm, iweigh = 0)
+#DCA_f <- decorana(VG_fm, iweigh = 0)
+#DCA_b <- decorana(VG_bm, iweigh = 0)
+DCA_g <- decorana(ordispe, iweigh = 1)
 
-pl <- ordiplot(DCA_f)
-ordispider (pl, groups = VG_f_wide$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
+#pl <- ordiplot(DCA_f)
+#ordispider (pl, groups = VG_f_wide$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
 
-pl <- ordiplot(DCA_b)
-ordispider (pl, groups = VG_b_wide$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
+#pl <- ordiplot(DCA_b)
+#ordispider (pl, groups = VG_b_wide$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
 
 pl <- ordiplot(DCA_g)
 ordispider (pl, groups = VG_g_wide$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
 ordiellipse (pl, groups = VG_g_wide$ID,
              label = F)
 #PCA
-PCA_g <- rda(VG_gm)
+PCA_g <- rda(ordispe)
 pl <- ordiplot(PCA_g, display = "sites")
 #text(pl, "sites", col="blue", cex=0.5)
-ordispider (pl, groups = VG_g_wide$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
+ordispider (pl, groups = test$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
 
 pl <- ordiplot(PCA_g, display = "species")
 text(pl, "species", col="blue", cex=0.5)
 
 
 #on hell transformed data
-PCA_fh <- rda(hell_VG_fm)
-PCA_bh <- rda(hell_VG_bm)
-PCA_gh <- rda(hell_VG_gm)
+#PCA_fh <- rda(hell_VG_fm, scale = FALSE)
+#PCA_bh <- rda(hell_VG_bm, scale = FALSE)
+PCA_gh <- rda(hell_VG_gm, scale = FALSE)
 #pl <- ordiplot(PCA_gh, display = "sites")
 #ordihull(pl, VG_g_wide$AreaCode, label = TRUE) 
-pl <- ordiplot(PCA_fh, display = "sites")
-ordispider (pl, groups = VG_f_wide$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
-pl <- ordiplot(PCA_bh, display = "sites")
-ordispider (pl, groups = VG_b_wide$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
+#pl <- ordiplot(PCA_fh, display = "sites")
+#ordispider (pl, groups = VG_f_wide$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
+#pl <- ordiplot(PCA_bh, display = "sites")
+#ordispider (pl, groups = VG_b_wide$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
 pl <- ordiplot(PCA_gh, display = "sites")
-ordispider (pl, groups = VG_g_wide$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
+ordispider (pl, groups = test$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
 pl <- ordiplot(PCA_gh, display = "sites")
-ordiellipse (pl, groups = VG_g_wide$ID_subplot,
+ordiellipse (pl, groups = test$ID_plot,
              label = F)
+#by plot
+pl <- ordiplot(PCA_gh, display = "sites", type="none")
+points(pl, "sites", pch=21, col="grey60", bg="grey80")
+ordiellipse (pl, groups = test$ID_plot,
+             label = F, col = "red")
 #text(pl, "sites", col="blue", cex=0.9)
+#by site
+pl <- ordiplot(PCA_gh, display = "sites", type="none")
+points(pl, "sites", pch=21, col="grey60", bg="grey80")
+ordiellipse (pl, groups = test$ID_site,
+             label = F, col = "red")
+
+barplot(as.vector(PCA_gh$CA$eig)/sum(PCA_gh$CA$eig)) 
+sum((as.vector(PCA_gh$CA$eig)/sum(PCA_gh$CA$eig))[1:3])
 
 table(VG_g_wide$ID_subplot)
-#Intensive plots per intensive/year####
+table(VG_g_wide$ID_plot)
 
-# hell_VG_gm2 <- decostand(VG_gm2, "hellinger") 
-# 
-# #DCA
-# DCA_g2 <- decorana(VG_gm2, iweigh = 1)
-# pl <- ordiplot(DCA_g2)
-# ordispider (pl, groups = VG_g_wide2$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
-# ordiellipse (pl, groups = VG_g_wide2$ID,
-#              label = F)
-# #PCA
-# PCA_g <- rda(VG_gm2)
-# pl <- ordiplot(PCA_g, display = "sites")
-# ordispider (pl, groups = VG_g_wide2$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
-# #on hell transformed data
-# PCA_gh <- rda(hell_VG_gm2)
-# pl <- ordiplot(PCA_gh, display = "sites")
-# ordispider (pl, groups = VG_g_wide2$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
-# pl <- ordiplot(PCA_gh, display = "species")
-# ordiellipse (pl, groups = VG_g_wide2$ID,
-#              label = F)
-# text(pl, "sites", col="blue", cex=0.6)
-# #text(pl, "species", col="blue", cex=0.6)
+#CCA####
+test.cca <- cca(ordispe ~ ordienv)
+test.cca
+plot(test.cca)
+
+#RDA
+test.rda <- rda(hell.ordispe ~ ordienv)
+test.rda
+plot(test.rda)
+
+#Intensive plots per intensive/year####
+hell_VG_gm2 <- decostand(VG_gm2, "hellinger")
+
+#DCA
+DCA_g2 <- decorana(VG_gm2, iweigh = 1)
+pl <- ordiplot(DCA_g2)
+ordispider (pl, groups = VG_g_wide2$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
+ordiellipse (pl, groups = VG_g_wide2$ID,
+             label = F)
+#PCA
+#on hell transformed data
+PCA_gh2 <- rda(hell_VG_gm2)
+pl <- ordiplot(PCA_gh2, display = "sites")
+ordispider (pl, groups = VG_g_wide2$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
+pl <- ordiplot(PCA_gh2, display = "species")
+ordiellipse (pl, groups = VG_g_wide2$ID_site,
+             label = F)
+text(pl, "sites", col="blue", cex=0.6)
+#text(pl, "species", col="blue", cex=0.6)
 
 #extract scores
 PCA_scores <- scores(PCA_gh)
@@ -81,22 +105,82 @@ PCA_scores_species <- as.data.frame(PCA_scores$species)
 PCA_scores_sites <- PCA_scores_sites %>% rownames_to_column(.,var = "ID_fine2")
 PCA_scores_species <- PCA_scores_species %>% rownames_to_column(.,var = "Species")
 
-extras <- VG_g_wide %>% 
-  select(ID, ID_site,ID_fine, ID_fine2, survey_year)
+#And at plot level
+PCA_scores2 <- scores(PCA_gh2)
+PCA_scores_sites2 <- as.data.frame(PCA_scores2$sites)
+PCA_scores_species2 <- as.data.frame(PCA_scores2$species)
+
+PCA_scores_sites2 <- PCA_scores_sites2 %>% rownames_to_column(.,var = "ID_fine")
+PCA_scores_species2 <- PCA_scores_species2 %>% rownames_to_column(.,var = "Species")
+combo_sites <- left_join(PCA_scores_sites2, select(extras, -c(ID_fine2, ID_subplot)),
+                         by = "ID_fine") %>% distinct()
+
+
+extras <- test %>% 
+  select(ID, ID_site,ID_fine, ID_fine2, ID_plot, ID_subplot,survey_year)
 PCA_scores_sites <- left_join(PCA_scores_sites, extras, by = "ID_fine2")
 
 #combine PCA scores with other data####
 all_data <- left_join(PCA_scores_sites, IM_env, by = "ID")
 #discard where deposition data is available
 all_data <- filter(all_data, NH4M > 0)
+#create by plot co-efficient of variation.
+#use cv function in raster package, manual seems to fail with group_by?
+#hogs select from dplyr though...
+library(raster)
+
+#cv <- sd(data) / mean(data) * 100
+
+all_data <- all_data %>% group_by(ID_plot) %>%
+  mutate(CV1 = cv(PC1)) %>% mutate(CV2 = cv(PC2)) %>% 
+  ungroup()
+
+#betadisper, nestedness and turnover####
+dist <- vegdist(ordispe,  method = "bray")
+disps <- betadisper(dist, test$ID_fine2)
+disps_df <- tibble::enframe(disps$distances) %>%
+  rename(ID_fine2 = name, dispersion = value)
+
+#add distance to centroids to all_data
+all_data <- left_join(all_data, disps_df, by = "ID_fine2")
+#group mean distance to centroid
+all_data <- all_data %>% group_by(ID_fine) %>% mutate(ID_fine_disp = mean(dispersion))
+str(all_data)
+all_data$ID_fine2 <-as.factor(all_data$ID_fine2)
+all_data$ID <-as.factor(all_data$ID)
+all_data$year.i <- I(dat$survey_year - 1998)
+#all_data$survey_year <-as.factor(all_data$survey_year)
+#all_data$year.i <- as.factor(all_data$year.i)
+
+data(sipoo)
+## Matrix temperature
+out <- nestedtemp(sipoo)
+out
+plot(out)
+plot(out, kind="incid")
+## Use oecosimu to assess the non-randomness of checker board units
+nestedchecker(sipoo)
+oecosimu(sipoo, nestedchecker, "quasiswap")
+## Another Null model and standardized checkerboard score
+oecosimu(sipoo, nestedchecker, "r00", statistic = "C.score")
+
+library(adespatial)
+
+
+
 
 #simple multiple regression####
-ml <- lm(PC1  ~  NH4M * NO3M + SO4SM + TEMP + 
+ml <- lm(dispersion  ~  NH4M + NO3M + SO4SM  + latitude + longitude +
            PREC + survey_year, data = all_data)
 summary(ml)
 
+glm <- glm(dispersion  ~  NH4M + NO3M + SO4SM + TEMP + latitude + longitude +
+  PREC + survey_year, family = gaussian, data = all_data)
 #seems more going on with PC2 as response
 library(visreg)
+visreg(ml, "NO3M")
+visreg(ml, "NH4M")
+visreg(ml, "SO4SM")
 visreg(ml, "NO3M", by = "survey_year")
 visreg(ml, "NH4M", by = "survey_year")
 visreg(ml, "NO3M", by = "year_scaled")
@@ -107,8 +191,112 @@ visreg(ml, "SO4SM", by = "survey_year")
 visreg(ml, "SO4SM", by = "TEMP")
 
 
+#Nmle AR regressions####
+
+#index year! ??
+library(nlme)
+
+summary(mod<-lme(ID_fine_disp~NH4M + NO3M + SO4SM + latitude + longitude,
+                 random=~1|ID_fine,
+                 #correlation=corCAR1(form=~survey_year|ID_fine),
+                 data=all_data))
+
+summary(mod<-lme(ID_fine_disp~survey_year,
+                 random=~1|ID_fine,
+                 correlation=corCAR1(form=~survey_year|ID_fine),
+                 data=all_data))
+anova(mod)
+fixed.effects(mod)
+
+plot(mod, col = as.numeric(factor(all_data$survey_year,
+                                  levels = unique(all_data$survey_year))),
+     pch = 16, main = "resids")
+
+
+#NMDS
+# First step is to calculate a distance matrix. See PCOA for more information about the distance measures
+# Here we use bray-curtis distance, which is recommended for abundance data
+dist <- vegdist(ordispe,  method = "bray")
+
+# In this part, we define a function NMDS.scree() that automatically 
+# performs a NMDS for 1-10 dimensions and plots the nr of dimensions vs the stress
+# NMDS.scree <- function(x) { #where x is the name of the data frame variable
+#   plot(rep(1, 10), replicate(10, metaMDS(x, autotransform = F, k = 1)$stress),
+#        xlim = c(1, 10),ylim = c(0, 0.30), xlab = "# of Dimensions",
+#        ylab = "Stress", main = "NMDS stress plot")
+#   for (i in 1:10) {
+#     points(rep(i + 1,10),replicate(10, metaMDS(x, autotransform = F, k = i + 1)$stress))
+#   }
+# }
+
+# Use the function that we just defined to choose the optimal nr of dimensions
+#NMDS.scree(dist)
+
+# Here, we perform the final analysis and check the result
+#NMDS1 <- metaMDS(dist, k = 2, trymax = 100, trace = T, parallel = 6)
+NMDS1
+ordiplot(NMDS1)
+ordihull (pl, groups = test$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
+
+#NMDS2 <- metaMDS(dist, k = 3, trymax = 100, trace = T, parallel = 6)
+NMDS2
+pl <- plot(NMDS2)
+ordihull (pl, groups = test$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
+
 #keep only sites with observations over at least three years
-# n.obs.dat <-as.data.frame(table(all_data2$ID_site))
+n.obs.dat <-as.data.frame(table(all_data$ID_site))
+n.obs.dat <-as.data.frame(table(all_data$ID_plot))
+
 # drop.list <- filter(n.obs.dat, Freq <3)
 # dat <- filter(all_data2, ID_site %!in% drop.list$Var1)
 # dat2 <- dat
+
+#plots- cup and ball models####
+ggplot(all_data, aes(PC1, PC2)) + geom_point() + facet_wrap(facets = "ID_plot")
+
+ggplot(combo_sites, aes(PC1, PC2)) + geom_point() + geom_path() +
+  facet_wrap(facets = "ID_plot")
+
+ggplot(drop_na(combo_sites), aes(PC1, PC2, colour = ID_plot, label = ID_plot)) + geom_point() + 
+  geom_path() + geom_text()
+
+ggplot(all_data, aes(PC1, PC2,colour = ID_plot)) + geom_point()
+
+ggplot(drop_na(combo_sites), aes(PC1, PC2,colour = ID_plot)) + geom_point()
+
+ggplot(drop_na(combo_sites), aes(PC1, PC2, colour = ID_plot)) + geom_point() + 
+  geom_path(arrow = arrow())
+#facet_wrap(facets = "ID_plot")
+
+ggplot(drop_na(combo_sites), aes(PC1, PC2, colour = ID_plot)) + geom_point()+ 
+  geom_path(drop_na(combo_sites), aes(PC1, PC2)) 
+
+
+#GAM
+#try same model with bam
+# N3_final_b <- bam(Ellenberg_N ~ 
+#                    #s(n_nh4, bs="tp")+
+#                    #s(n_no3, bs="tp")+
+#                    #ti(n_nh4, n_no3, bs="tp")+
+#                    te(NH4, NO3, bs = "tp") +
+#                    s(canopy,bs="tp") +
+#                    #s(L.x, bs= "tp")+
+#                    #s(herb_layer.x, bs="tp")+
+#                    #s(temperature,bs= "tp")+
+#                    s(precipitation,bs="tp")+
+#                    s(age, bs="tp", k=5)+
+#                    #as.factor(age)+ 
+#                    as.factor(tree)+
+#                    s(survey_year,ID_site, bs="re")+
+#                    s(ID_site, bs="re"),
+#                    #te(longitude,latitude,survey_year,bs="tp",d=c(2,1)),argGam = list(select=T),
+#                  data = dat_names)
+# 
+# b <- getViz(N3_final_b)
+# summary(b)
+# draw(b, parametric = FALSE, residuals = TRUE)
+# appraise(b)
+# acf(residuals(b))
+# #show sig areas only
+# plot(sm(b, 1))+l_fitRaster(pTrans = function(.p).p<=0.05)
+  
