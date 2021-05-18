@@ -4,160 +4,39 @@ library(tidyverse)
 library(vegan)
 #Use sign function to convert abundance data 
 #into prescence abscence matrix that can be fed to Betapart. Can't include factors (non numeric)
-dat <- ordispe
-dat.pa=sign(dat) #exclude them. works but lose first factor columns
-dat.pa <- as.data.frame(dat.pa)
-dat.pa <- rownames_to_column(dat.pa, var = "ID_fine2")
-dat.pa$ID_fine2 <- as.factor(dat.pa$ID_fine2)
-dat.pa=cbind(ID_site=0, dat.pa)
-dat.pa=cbind(ID_plot=0, dat.pa)
-dat.pa=cbind(ID_subplot=0, dat.pa) #add back some empty columns in that case...
-dat.pa=cbind(survey_year=0, dat.pa)
-dat.pa=cbind(ID_fine=0,dat.pa)
-#dat.pa=cbind(ID=0, dat.pa)
-dat.pa$survey_year <- test$survey_year #copy the values
-dat.pa$ID_site <- test$ID_site
-dat.pa$ID_plot <- test$ID_plot
-dat.pa$ID_subplot <- test$ID_subplot
-dat.pa$ID_fine <- test$ID_fine
-#to put them back in.
-str(dat.pa)
+test_part <- test %>% group_by(ID_plot) %>% mutate(first= min(survey_year)) %>% 
+  mutate(last=max(survey_year)) %>% select(ID_fine2, first, last, everything()) %>% ungroup()
+#convert to PA for betapart
+test_part2 <- as.data.frame(test_part) %>% select(-c(1:9, 333:339)) %>% sign() %>% 
+  cbind(test_part$ID_fine) %>% 
+  rename(ID_fine = 'test_part$ID_fine') %>% select(ID_fine, everything())
+#make a list of matrices, one for each plot/year combo
+test_list <- test_part2 %>% 
+  split(.$ID_fine) %>% lapply(., function(x) { x["ID_fine"] <- NULL; x }) %>% 
+  lapply(.,function(x) {as.matrix(x)})
 
-select(dat.pa, -c(2:6)) %>% group_by(ID_fine) %>% group_modify(beta.pair(.,index.family = "jaccard"))
+#apply betapart core to create a betapart object for each matrix
+core_list <- lapply(test_list,function(x) betapart.core(x))
 
-#Stack overflow
-repex <- select(dat.pa, 1, 6:16) %>% slice(.,1:10)
-repex <- repex %>% rename(Site_ID = ID_fine, Plot_ID = ID_fine2)
-repex$Site_ID <- c(1,1,1,1,1,2,2,2,2,2)
-repex$Plot_ID <- c(1.1,1.2,1.3,1.4,1.5,2.1,2.2,2.3,2.4,2.5)
-repex[1,3] <- 1
-repex[6,6] <- 1
-repex[8,7] <- 1
+multi_list <- lapply(core_list,function(x) beta.multi(x))
 
-beta.pair(repex[,3:12])
-repex %>% group_by(Site_ID) %>% summarise(beta = rowsum(.))
-str(repex)
-#Betapart doesn't like year and plot columns. Subset by year...
-#fieldpresabs_1 created above
-period1 <- c(1996,1997,1998,2000)
-period2 <- c(2001,2002,2004,2005)
-period3 <- c(2006,2007,2008,2010)
-period4 <- c(2011,2012,2013,2015)
+multi_df <- data.frame(matrix(unlist(multi_list), nrow=85, byrow=TRUE),stringsAsFactors=FALSE) %>% 
+  cbind(names(multi_list))
 
-dat.pa.1 <- dat.pa %>% filter(Year %in% period1)  
-dat.pa.2 <- dat.pa %>% filter(Year %in% period2)  
-dat.pa.3 <- dat.pa %>% filter(Year %in% period3)   
-dat.pa.4 <- dat.pa %>% filter(Year %in% period4)  
+multi_df <- multi_df %>% rename(beta.SIM = X1, beta.SNE = X2, beta.SOR = X3, ID_fine = 'names(multi_list)')
 
-#and then subset by site
-Gd1 <- filter(dat.pa.1, Site == "Gd") %>% select(-Year, -Plot, -Site, -Tree, -ID)
-Gd2 <- filter(dat.pa.2, Site == "Gd") %>% select(-Year, -Plot, -Site, -Tree, -ID) 
-Gd3 <- filter(dat.pa.3, Site == "Gd") %>% select(-Year, -Plot, -Site, -Tree, -ID)
-Gd4 <- filter(dat.pa.4, Site == "Gd") %>% select(-Year, -Plot, -Site, -Tree, -ID)
+#LT plots report only one value for each year, not possible to calculate beta 
+#diversity, and betapart returns NaN
 
-An1 <- filter(dat.pa.1, Site == "An") %>% select(-Year, -Plot, -Site, -Tree, -ID)
-An2 <- filter(dat.pa.2, Site == "An") %>% select(-Year, -Plot, -Site, -Tree, -ID)
-An3 <- filter(dat.pa.3, Site == "An") %>% select(-Year, -Plot, -Site, -Tree, -ID)
-An4 <- filter(dat.pa.4, Site == "An") %>% select(-Year, -Plot, -Site, -Tree, -ID)
-
-Ki1 <- filter(dat.pa.1, Site == "Ki") %>% select(-Year, -Plot, -Site, -Tree, -ID)
-Ki2 <- filter(dat.pa.2, Site == "Ki") %>% select(-Year, -Plot, -Site, -Tree, -ID)
-Ki3 <- filter(dat.pa.3, Site == "Ki") %>% select(-Year, -Plot, -Site, -Tree, -ID)
-Ki4 <- filter(dat.pa.4, Site == "Ki") %>% select(-Year, -Plot, -Site, -Tree, -ID)
-
-Ga1 <- filter(dat.pa.1, Site == "Ga") %>% select(-Year, -Plot, -Site, -Tree, -ID)
-Ga2 <- filter(dat.pa.2, Site == "Ga") %>% select(-Year, -Plot, -Site, -Tree, -ID)
-Ga3 <- filter(dat.pa.3, Site == "Ga") %>% select(-Year, -Plot, -Site, -Tree, -ID)
-Ga4 <- filter(dat.pa.4, Site == "Ga") %>% select(-Year, -Plot, -Site, -Tree, -ID)
-
-#check things look right 
-str(Gd1)
-#remove zero sum columns #
-Ga1 <- Ga1[, colSums(Ga1 != 0) > 0]
-Ga2 <- Ga2[, colSums(Ga2 != 0) > 0]
-Ga3 <- Ga3[, colSums(Ga3 != 0) > 0]
-Ga4 <- Ga4[, colSums(Ga4 != 0) > 0]
-
-Ki1 <- Ki1[, colSums(Ki1 != 0) > 0]
-Ki2 <- Ki2[, colSums(Ki2 != 0) > 0]
-Ki3 <- Ki3[, colSums(Ki3 != 0) > 0]
-Ki4 <- Ki4[, colSums(Ki4 != 0) > 0]
-
-An1 <- An1[, colSums(An1 != 0) > 0]
-An2 <- An2[, colSums(An2 != 0) > 0]
-An3 <- An3[, colSums(An3 != 0) > 0]
-An4 <- An4[, colSums(An4 != 0) > 0]
-
-Gd1 <- Gd1[, colSums(Gd1 != 0) > 0]
-Gd2 <- Gd2[, colSums(Gd2 != 0) > 0]
-Gd3 <- Gd3[, colSums(Gd3 != 0) > 0]
-Gd4 <- Gd4[, colSums(Gd4 != 0) > 0]
+test_beta <- left_join(test, multi_df)
+test_beta <- test_beta %>% select(c(1:7, 338:340), everything())
 
 
-# make betapart core objects to use in later analyses
-Gd1c <- betapart.core(Gd1) 
-Gd2c <- betapart.core(Gd2) 
-Gd3c <- betapart.core(Gd3) 
-Gd4c <- betapart.core(Gd4) 
 
-An1c <- betapart.core(An1) 
-An2c <- betapart.core(An2) 
-An3c <- betapart.core(An3) 
-An4c <- betapart.core(An4) 
-
-Ki1c <- betapart.core(Ki1) 
-Ki2c <- betapart.core(Ki2) 
-Ki3c <- betapart.core(Ki3) 
-Ki4c <- betapart.core(Ki4) 
-
-Ga1c <- betapart.core(Ga1) 
-Ga2c <- betapart.core(Ga2) 
-Ga3c <- betapart.core(Ga3) 
-Ga4c <- betapart.core(Ga4) 
-
-#Returns three values-turnover and nestedness components, + total multi-plot dissimilarity across the site
-(Ga1m <- beta.multi(Ga1c))#turnover=0.7966574, nestedness=0.06651038, betadiv=0.8631678
-(Ga2m <- beta.multi(Ga2c))#turnover=0.8189655 nestedness=0.05272491, betadiv=0.8716904
-(Ga3m <- beta.multi(Ga3c))#turnover=0.7884615 nestedness=0.07204571, betadiv=0.8605072
-(Ga4m <- beta.multi(Ga4c))#turnover=0.808399 nestedness=0.06228307, betadiv=0.870682
-
-(Gd1m <- beta.multi(Gd1c))#turnover=0.7558528, nestedness=0.0876627, betadiv=0.8435155
-(Gd2m <- beta.multi(Gd2c))#turnover=0.7903226 nestedness=0.05601312, betadiv=0.8463357
-(Gd3m <- beta.multi(Gd3c))#turnover=0.7916667 nestedness=0.05190875, betadiv=0.8435754
-(Gd4m <- beta.multi(Gd4c))#turnover=0.6836158 nestedness=0.1351544, betadiv=0.8187702
-
-(Ki1m <- beta.multi(Ki1c))#turnover=0.6054422, nestedness=0.2163704, betadiv=0.8218126
-(Ki2m <- beta.multi(Ki2c))#turnover=0.5909091 nestedness=0.2266585, betadiv=0.8175676
-(Ki3m <- beta.multi(Ki3c))#turnover=0.6462264 nestedness=0.1548346, betadiv=0.801061
-(Ki4m <- beta.multi(Ki4c))#turnover=0.625 nestedness=0.1504011, betadiv=0.7754011
-
-(An1m <- beta.multi(An1c))#turnover=0.5541401, nestedness=0.2324452, betadiv=0.7865854
-(An2m <- beta.multi(An2c))#turnover=0.5510204 nestedness=0.2271309, betadiv=0.7781513
-(An3m <- beta.multi(An3c))#turnover=0.6551724 nestedness=0.1876567, betadiv=0.8428291
-(An4m <- beta.multi(An4c))#turnover=0.7286822 nestedness=0.1092808, betadiv=0.837963
 
 
 #Make a beta.pair distance matrix for each beta.core object
 Ga1p = beta.pair(Ga1c)
-Ga2p = beta.pair(Ga2c)
-Ga3p = beta.pair(Ga3c)
-Ga4p = beta.pair(Ga4c)
-
-Gd1p = beta.pair(Gd1c)
-Gd2p = beta.pair(Gd2c)
-Gd3p = beta.pair(Gd3c)
-Gd4p = beta.pair(Gd4c)
-
-An1p = beta.pair(An1c)
-An2p = beta.pair(An2c)
-An3p = beta.pair(An3c)
-An4p = beta.pair(An4c)
-
-Ki1p = beta.pair(Ki1c)
-Ki2p = beta.pair(Ki2c)
-Ki3p = beta.pair(Ki3c)
-Ki4p = beta.pair(Ki4c)
-
 #Compare first year with last
 #Gammtratten
 #turnover
