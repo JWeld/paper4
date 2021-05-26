@@ -459,7 +459,7 @@ ICPIM_AC_AM_TF <- read_csv("raw_data/ICPIM_AC_AM_TF.csv",
                                             StatusFlag = col_skip(), NeedleAgeCode = col_skip(), 
                                             ParameterInfo = col_skip(), PretreInfo = col_skip(), 
                                             DeterInfo = col_skip()))
-
+library(lubridate)
 #Add arbitrary day to yearmonth to create date data
 ICPIM_AC_AM_TF$YearMonth <- paste(ICPIM_AC_AM_TF$YearMonth,"15", sep="")
 #change to date
@@ -550,6 +550,75 @@ IM_AM <- pivot_wider(IM_AM, names_from = ParameterCode, values_from = Value)
 IM_meteo <- IM_AM %>% group_by(ID,ID_site,survey_year) %>%
   summarise_at(vars(TEMP), funs(mean), na.rm = TRUE) %>% ungroup()
 
+##Temp for missing data from copernicus database
+# library(ncdf4)
+# mycdf <- nc_open(file.choose(), verbose = TRUE, write = FALSE)
+# timedata <- ncvar_get(mycdf,'time')
+
+#library(RNCEP)
+##Define limits for latitude and longitude
+# min_lat <- min(all_data$latitude, na.rm = TRUE)
+# max_lat <- max(all_data$latitude, na.rm = TRUE)
+# 
+# min_lon <- min(all_data$longitude, na.rm = TRUE)
+# max_lon <- max(all_data$longitude, na.rm = TRUE)
+
+# define arguments for latitude and longitude
+# lat_range <- c(min_lat, max_lat)
+# lon_range <-c(min_lon, max_lon)
+# 
+# # get monthly air temperature between 2001 and 2018
+# weather <- NCEP.gather(variable = "air.sig995", level = "surface", months.minmax = c(1,12),
+#                        years.minmax = c(1998,2018), lat.southnorth =lat_range,
+#                        lon.westeast = lon_range)
+# #annual means
+# weather2 <- NCEP.aggregate(weather, YEARS = TRUE, MONTHS = FALSE,
+#                            DAYS = FALSE, HOURS = FALSE, fxn = 'mean')
+# t98 <- as.data.frame(weather[,,1])
+# #etc
+# 
+# tempa <- select(all_data, ID_fine, latitude, longitude, survey_year) %>% distinct()
+# #round to nearest 2.5
+# mround <- function(x,base){ 
+#   base*round(x/base) 
+# } 
+# 
+# tempa$latituder <- mround(tempa$latitude, 2.5)
+# tempa$longituder <- mround(tempa$longitude, 2.5)
+# tempa$TEMP2 <- as.double(c(1:85))
+# tempa[85,7] <- 267.5
+# bak <- tempa
+# #in kelvin, convert to centigrade
+# tempa$TEMP_C <- tempa$TEMP2
+# tempa$TEMP_C <- tempa$TEMP_C - 273.15
+
+
+#interpolate
+
+# lat <- all_data$latitude
+# long <- all_data$longitude
+# year <- all_data$survey_year
+# ID_fine <- as.character(all_data$ID_fine)
+# 
+# temps <- cbind(ID_fine, lat,long, year) %>% as.data.frame()
+# temps$date <- ymd_hms(paste0(temps$year, '-01-01 00:00:01'))
+# lat <- as.numeric(temps$lat)
+# lon <- as.numeric(temps$long)
+# dt <- as.character(temps$date)
+#or apply interpolate function
+# interp <- NCEP.interp('air.sig995','surface', lat, lon, dt, reanalysis2 = FALSE,
+#             interpolate.space = TRUE, interpolate.time = TRUE,
+#             keep.unpacking.info = FALSE, return.units = TRUE,
+#             status.bar=TRUE) 
+#in kelvin, convert to centigrade
+# interp_c <- interp - 273.15
+# temps$temp2 <- interp_c
+# temps2 <- distinct(temps)
+
+# extract longitude & latitude based on created weather dataset
+# lat <- dimnames(weather)[[1]] # in increments of 2.5
+# lon <- dimnames(weather)[[2]] # in increments of 2.5
+
 #ENV combo####
 IM_env <- left_join(IM_dep2, select(IM_meteo, ID, TEMP), by = "ID") %>% ungroup() %>% 
   left_join(., IM_locations) %>% 
@@ -559,6 +628,14 @@ IM_env <- left_join(IM_dep2, select(IM_meteo, ID, TEMP), by = "ID") %>% ungroup(
 #create data - species and environemntal matrixes####
 #There is species data back to 90 but only env data from 98 on...
 test <- left_join(VG_g_wide, IM_env, by = "ID") %>% filter(NH4M > 0) %>% ungroup()
+#German and Italian have only one year of data, drop them
+test <- filter(test, ID_plot %!in% c("DE01_50", "DE01_60", "IT03_1"))
+#drop unused facotr levels
+test$ID <- as.factor(test$ID)
+test$ID_fine2 <- droplevels(test$ID_fine2)
+test$ID_fine <- droplevels(test$ID_fine)
+test$ID_site <- droplevels(test$ID_site)
+test$ID_plot <- droplevels(test$ID_plot)
 
 #date range for plots
 last <- test %>% group_by(ID_plot) %>% summarise(last=max(survey_year))
@@ -566,18 +643,19 @@ first <- test %>% group_by(ID_plot) %>% summarise(first=min(survey_year))
 range <- left_join(first, last)
 range <- range %>% mutate(diff= last-first)
 
-#German and Italian have only one year of data, drop them
-droplist <- c()
-test <- filter(test, ID_plot %!in% c("DE01_50", "DE01_60", "IT03_1"))
 
 #make matrix for ordinations
 ordienv <-  select(ungroup(test), ID_fine2, NH4M, NO3M, SO4SM, TEMP, latitude, longitude, 
                    PREC, survey_year) %>% column_to_rownames(var="ID_fine2")
-ordispe <- select(test, -c(2:7, 331:337)) %>% column_to_rownames(var="ID_fine2")
+ordispe <- select(test, -c(2:7, 331:337)) %>% column_to_rownames(var="ID_fine2") 
+ordispe <- ordispe[,colSums(ordispe !=0)>0] #drop zero sum columns (spp not present anywhere)
 ordienv <-  select(test, ID_fine2, NH4M, NO3M, SO4SM, latitude, longitude, 
                    PREC, survey_year) %>% column_to_rownames(var="ID_fine2")
 ordispe <- as.matrix(ordispe)
 ordienv <- as.matrix(ordienv)
+
+#Scale numeric variables####
+ordienv_scaled <- ordienv %>% scale()
 
 
 #ICP Forests data###

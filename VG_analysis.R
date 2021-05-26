@@ -37,6 +37,8 @@ text(pl, "species", col="blue", cex=0.5)
 #PCA_fh <- rda(hell_VG_fm, scale = FALSE)
 #PCA_bh <- rda(hell_VG_bm, scale = FALSE)
 PCA_gh <- rda(ordispe_h, scale = FALSE)
+
+summary(PCA_gh)
 #pl <- ordiplot(PCA_gh, display = "sites")
 #ordihull(pl, VG_g_wide$AreaCode, label = TRUE) 
 #pl <- ordiplot(PCA_fh, display = "sites")
@@ -52,7 +54,7 @@ ordiellipse (pl, groups = test$ID_plot,
 pl <- ordiplot(PCA_gh, display = "sites", type="none")
 points(pl, "sites", pch=21, col="grey60", bg="grey80")
 ordiellipse (pl, groups = test$ID_plot,
-             label = F, col = "red")
+             label = T, col = "red")
 #text(pl, "sites", col="blue", cex=0.9)
 #by site
 pl <- ordiplot(PCA_gh, display = "sites", type="none")
@@ -71,10 +73,18 @@ test.cca <- cca(ordispe ~ ordienv)
 test.cca
 plot(test.cca)
 
-#RDA
+#RDA####
 test.rda <- rda(ordispe_h ~ ordienv)
 test.rda
 plot(test.rda)
+
+mod <- ordistep(test.rda)
+mod0 <- rda(ordispe_h ~ 1, ordienv)  # Model with intercept only
+mod1 <- rda(ordispe_h ~ ordienv)  # Model with all explanatory variables
+mod <- ordistep(mod0, scope = formula(mod1))
+mod
+## summary table of steps
+mod$anova
 
 #Intensive plots per intensive/year####
 ordispe_h2 <- decostand(VG_gm2, "hellinger")
@@ -111,13 +121,16 @@ PCA_scores_species2 <- as.data.frame(PCA_scores2$species)
 
 PCA_scores_sites2 <- PCA_scores_sites2 %>% rownames_to_column(.,var = "ID_fine")
 PCA_scores_species2 <- PCA_scores_species2 %>% rownames_to_column(.,var = "Species")
-combo_sites <- left_join(PCA_scores_sites2, select(extras, -c(ID_fine2, ID_subplot)),
-                         by = "ID_fine") %>% distinct()
 
 
 extras <- test %>% 
   select(ID, ID_site,ID_fine, ID_fine2, ID_plot, ID_subplot,survey_year)
 PCA_scores_sites <- left_join(PCA_scores_sites, extras, by = "ID_fine2")
+
+combo_sites <- left_join(PCA_scores_sites2, select(extras, -c(ID_fine2, ID_subplot)),
+                         by = "ID_fine") %>% distinct()
+#year as index from first year
+combo_sites$year.i <- I(combo_sites$survey_year-1997)
 
 #combine PCA scores with other data####
 all_data <- left_join(PCA_scores_sites, IM_env, by = "ID")
@@ -151,7 +164,7 @@ all_data <- all_data %>% group_by(ID_fine) %>% mutate(ID_fine_disp = mean(disper
 str(all_data)
 all_data$ID_fine2 <-as.factor(all_data$ID_fine2)
 all_data$ID <-as.factor(all_data$ID)
-all_data$year.i <- I(dat$survey_year - 1998)
+all_data$year.i <- I(all_data$survey_year -1997)
 #all_data$survey_year <-as.factor(all_data$survey_year)
 #all_data$year.i <- as.factor(all_data$year.i)
 
@@ -205,7 +218,7 @@ all_data <- left_join(all_data, multi_df)
 library(corrplot)
 all_data %>% ungroup() %>% select(where(is.numeric)) %>% drop_na() %>% cor() %>% corrplot()
 
-
+#X Dispersion, betapart reponses X####
 #simple multiple regression####
 ml <- lm(dispersion  ~  NH4M + NO3M + SO4SM  + latitude + longitude +
            PREC + survey_year, data = all_data)
@@ -280,29 +293,29 @@ plot(mod, col = as.numeric(factor(all_data$survey_year,
 #NMDS.scree(dist)
 
 # Here, we perform the final analysis and check the result
-NMDS1 <- metaMDS(dist, k = 2, trymax = 50, trace = T, parallel = 6)
-NMDS1
-ordiplot(NMDS1)
-ordihull (pl, groups = test$ID_site, col = c("red","blue","green","grey","pink","yellow"),
-          label = T)
+# NMDS1 <- metaMDS(dist, k = 2, trymax = 50, trace = T, parallel = 6)
+# NMDS1
+# ordiplot(NMDS1)
+# ordihull (pl, groups = test$ID_site, col = c("red","blue","green","grey","pink","yellow"),
+#           label = T)
+# 
+# NMDS2 <- metaMDS(dist, k = 4, trymax = 50, trace = T, parallel = 6)
+# NMDS2
 
-NMDS2 <- metaMDS(dist, k = 4, trymax = 50, trace = T, parallel = 6)
-NMDS2
-
-mod <- NMDS2
-stressplot(mod)
-gof <- goodness(mod)
-gof
-plot(mod, display = "sites", type = "n")
-points(mod, display = "sites", cex = 2*gof/mean(gof))
-
-pl <- plot(NMDS2)
-ordihull (pl, groups = test$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
-ordiellipse (pl, groups = test$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
+# mod <- NMDS2
+# stressplot(mod)
+# gof <- goodness(mod)
+# gof
+# plot(mod, display = "sites", type = "n")
+# points(mod, display = "sites", cex = 2*gof/mean(gof))
+# 
+# pl <- plot(NMDS2)
+# ordihull (pl, groups = test$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
+# ordiellipse (pl, groups = test$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
 
 #keep only sites with observations over at least three years
-n.obs.dat <-as.data.frame(table(all_data$ID_site))
-n.obs.dat <-as.data.frame(table(all_data$ID_plot))
+#n.obs.dat <-as.data.frame(table(all_data$ID_site))
+#n.obs.dat <-as.data.frame(table(all_data$ID_plot))
 
 # drop.list <- filter(n.obs.dat, Freq <3)
 # dat <- filter(all_data2, ID_site %!in% drop.list$Var1)
@@ -325,35 +338,455 @@ ggplot(all_data, aes(PC1, PC2, colour = ID_plot)) + geom_point() +
   geom_path(arrow = arrow())
 #facet_wrap(facets = "ID_plot")
 
+ggplot(drop_na(combo_sites), aes(PC1, PC2, colour = ID_plot, label = ID_fine)) + geom_point()+ 
+  geom_path() + geom_label()
+
 ggplot(drop_na(combo_sites), aes(PC1, PC2, colour = ID_plot)) + geom_point()+ 
-  geom_path() 
+  geom_path(size=1.25, arrow=arrow())
 
 
+#Add distances between sequential observations and distance to base-line for
+#all to allow plots like in Lamothe 2019
+
+combosites2 <- combo_sites %>% ungroup() %>% group_by(ID_plot) %>% arrange(survey_year) %>% 
+  mutate(pc1diff = PC1 - lag(PC1)) %>% mutate(pc2diff = PC2 - lag(PC2)) %>% 
+  mutate(pc_dist = sqrt((pc1diff)^2 + (pc2diff)^2))
+
+ggplot(combosites2 %>% drop_na(pc_dist) %>% drop_na(ID_plot), aes(ID_plot, pc_dist, colour = ID_plot)) +
+  geom_boxplot() + theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5), legend.position="none")
+
+
+temp <- combosites2 %>% ungroup() %>% group_by(ID_plot) %>% arrange(survey_year) %>% 
+  filter(row_number()==1) %>% select(ID_plot, PC1, PC2) %>% rename(basePC1 = PC1, basePC2 = PC2)
+
+combosites3 <- left_join(combosites2, temp, by = "ID_plot")
+combosites4 <- combosites3 %>% ungroup() %>% group_by(ID_plot) %>% arrange(survey_year) %>% 
+  mutate(pc1diffbase = PC1 - basePC1) %>% mutate(pc2diffbase = PC2 - basePC2) %>% 
+  mutate(pc_dist_base = sqrt((pc1diffbase)^2 + (pc2diffbase)^2))
+
+
+ggplot(combosites4 %>% drop_na(pc_dist_base) %>%
+         drop_na(ID_plot), aes(survey_year, pc_dist_base, colour = ID_plot)) +
+#  geom_point()+
+#  geom_smooth(method = "lm")+
+  geom_line(size=1) + theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5),
+                               )
+#Add distance to baseline as response variable to all_data
+combosites5 <- left_join(select(combosites4, ID_fine, ID, ID_site, ID_plot, survey_year,
+                                pc_dist, pc_dist_base),
+          IM_env, by = "ID") %>% ungroup()
+#Add betapart data
+t1 <- select(combosites5, ID,pc_dist, pc_dist_base) %>% drop_na(ID)
+all_data2 <- left_join(all_data, t1) %>% ungroup()
+all_data2 <- all_data2 %>% mutate(NTOT = NH4M + NO3M)
+
+combosites5 <- left_join(combosites5, multi_df, by = "ID_fine")
+
+combosites5 <- combosites5 %>% drop_na(ID) %>% ungroup()
+combosites5 <- combosites5 %>% mutate(NTOT = NH4M + NO3M)
+
+#create lag terms for atmospheric pollutants
+combosites6 <- combosites5 %>% group_by(ID_plot) %>% arrange(survey_year) %>% 
+  mutate(NTOT.lag = lag(NTOT))
+combosites6 <- combosites6 %>% group_by(ID_plot) %>% arrange(survey_year) %>% 
+  mutate(NH4M.lag = lag(NH4M))
+combosites6 <- combosites6 %>% group_by(ID_plot) %>% arrange(survey_year) %>% 
+  mutate(NO3M.lag = lag(NO3M))
+combosites6 <- combosites6 %>% group_by(ID_plot) %>% arrange(survey_year) %>% 
+  mutate(SO4SM.lag = lag(SO4SM))
+combosites6 <- ungroup(combosites6)
+combosites6 <- drop_na(combosites6, pc_dist)
+
+
+#subplotlevel PCA movements
+combosubs <- all_data2 %>% ungroup() %>% group_by(ID_subplot) %>% arrange(survey_year) %>% 
+  mutate(pc1diff = PC1 - lag(PC1)) %>% mutate(pc2diff = PC2 - lag(PC2)) %>% 
+  mutate(pc_dist = sqrt((pc1diff)^2 + (pc2diff)^2))
+
+ggplot(combosubs %>% drop_na(pc_dist) %>% drop_na(ID_plot), aes(ID_plot, pc_dist, colour = ID_plot)) +
+  geom_boxplot() + theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5), legend.position="none")
+
+
+temp2 <- combosubs %>% ungroup() %>% group_by(ID_subplot) %>% arrange(survey_year) %>% 
+  filter(row_number()==1) %>% select(ID_subplot, PC1, PC2) %>% rename(basePC1 = PC1, basePC2 = PC2)
+
+combosubs2 <- left_join(combosubs, temp2, by = "ID_subplot")
+combosubs3 <- combosubs2 %>% ungroup() %>% group_by(ID_subplot) %>% arrange(survey_year) %>% 
+  mutate(pc1diffbase = PC1 - basePC1) %>% mutate(pc2diffbase = PC2 - basePC2) %>% 
+  mutate(pc_dist_base = sqrt((pc1diffbase)^2 + (pc2diffbase)^2))
+
+
+ggplot(combosubs3 %>% drop_na(pc_dist_base) %>%
+         drop_na(ID_plot), aes(survey_year, pc_dist_base, colour = ID_plot)) +
+   geom_point()+
+    geom_smooth(method = "lm", se=FALSE)
+  #geom_line(size=1) + theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))
+
+#X PCA distance to base reponses X####
+#combine PCA base distance and env variables and model
+library(corrplot)
+combosites5 %>% ungroup() %>% select(where(is.numeric)) %>% drop_na() %>% cor() %>% corrplot()
+combosites5 %>% ungroup() %>% select(where(is.numeric)) %>% drop_na() %>% cor() 
+
+#simple multiple regression####
+ml <- lm(pc_dist_base  ~  NTOT + SO4SM  + latitude + longitude +
+           beta.SNE +
+           beta.SIM +
+           #beta.SOR +
+           PREC +
+           survey_year, data = combosites5)
+summary(ml)
+library(car)
+vif(ml)
+#attributes(alias(ml)$Complete)$dimnames[[1]] #beta.SOR is linearly dependant on SOR + SNE
+
+ml <- lm(pc_dist_base  ~  NH4M + NO3M + SO4SM  + latitude + longitude +
+           beta.SNE +
+           beta.SIM +
+           #beta.SOR +
+           PREC + survey_year, data = all_data2)
+summary(ml)
+
+ml <- lm(pc_dist_base  ~  NH4M + NO3M + SO4SM  + latitude + longitude +
+           beta.SNE +
+           beta.SIM +
+           beta.SOR+
+           PREC + survey_year, data = combosites5)
+summary(ml)
+
+
+glm <- glm(pc_dist_base  ~  NH4M + NO3M + SO4SM + TEMP + latitude + longitude +
+             PREC + survey_year, family = gaussian, data = combosites5)
+
+summary(glm)
+#seems more going on with PC2 as response
+library(visreg)
+visreg(ml, "NO3M")
+visreg(ml, "NH4M")
+visreg(ml, "SO4SM")
+visreg(ml, "NO3M", by = "survey_year")
+visreg(ml, "NH4M", by = "survey_year")
+visreg(ml, "NO3M", by = "year_scaled")
+visreg(ml, "NH4M", by = "year_scaled")
+visreg(ml, "NH4M", by = "NO3M")
+visreg(ml, "NO3M", by = "latitude")
+visreg(ml, "SO4SM", by = "survey_year")
+visreg(ml, "SO4SM", by = "TEMP")
+
+
+#Nmle AR regressions####
+
+#index year?
+library(nlme)
+library(lme4)
+combosites5$year.i <- I(combosites5$survey_year-1997)
+combosites5$year.i <- as.numeric(combosites5$year.i)
+
+barplot(table(combosites5$ID_plot))
+barplot(table(combosites5$latitude))
+barplot(combosites5$NTOT)
+barplot(combosites5$year.i)
+barplot(table(combosites5$year.i))
+hist(combosites5$pc_dist_base)#right skewed
+hist(log(combosites5$pc_dist_base))#log transf?
+
+summary(nmod1 <- lme(pc_dist_base~
+                       NH4M +
+                       NO3M +
+                       SO4SM +
+                       latitude + longitude,
+                 random=~1|ID_plot,
+                 correlation=corCAR1(form=~survey_year|ID_plot),
+                 data=combosites5))
+
+summary(nmod2 <- lme(pc_dist_base~
+                   #NH4M * NO3M +
+                   NTOT + 
+                   SO4SM +
+                   latitude + longitude +
+                   survey_year,
+                 random=~1|ID_plot,
+                 correlation=corCAR1(form=~survey_year|ID_plot),
+                 data=combosites5))
+
+summary(nmod3 <- lme(log(pc_dist_base+1)~
+                       #NH4M * NO3M +
+                       NTOT + 
+                       SO4SM +
+                       latitude + longitude +
+                       survey_year,
+                     random=~1|ID_plot,
+                     correlation=corCAR1(form=~survey_year|ID_plot),
+                     data=combosites5))
+#basic LM
+summary(mod<-lm(pc_dist_base~
+                   #NH4M * NO3M +
+                   NTOT + 
+                   SO4SM +
+                   latitude + longitude +
+                   survey_year,
+                 data=combosites5))
+
+par(mfrow = c(2,2))
+plot(mod)
+qqnorm(residuals(mod))
+qqline(residuals(mod))
+vif(mod)#car
+
+#GLM null model
+GLM <- gls(log(pc_dist_base+1)~
+             #NH4M * NO3M +
+             NTOT + 
+             SO4SM +
+             latitude + longitude +
+             survey_year,
+           data=combosites5,
+           method = "ML")
+summary(GLM)
+plot(GLM)
+
+#LME mixed
+lmm0 <- lmer(pc_dist_base~
+               #NH4M * NO3M +
+               NTOT + 
+               SO4SM +
+               latitude +
+               longitude +
+               survey_year+
+               (1|ID_plot),
+             data=combosites5)
+
+lmm1 <- lmer(log(pc_dist_base+1)~
+              #NH4M * NO3M +
+              NTOT + 
+              SO4SM +
+              latitude +
+              longitude +
+              survey_year+
+    (1|ID_plot),
+    data=combosites5)
+
+lmm1.5 <- lmer(pc_dist_base~
+               #NH4M * NO3M +
+               NTOT + 
+               SO4SM +
+               latitude +
+               longitude +
+               survey_year+
+               (1|ID_plot),
+             data=combosites5)
+
+lmm2 <- lmer(log(pc_dist_base+1)~
+               #NH4M * NO3M +
+               NTOT + 
+               SO4SM +
+               latitude +
+               longitude +
+               survey_year+
+               (1|ID),
+             data=combosites5)
+
+lmm3 <- lmer(log(pc_dist_base+1)~
+               #NH4M * NO3M +
+               NTOT + 
+               SO4SM +
+               latitude +
+               longitude +
+               #year.i+
+               (1|ID),
+             data=combosites5)
+
+lmm4 <- lmer(log(pc_dist_base+1)~
+               #NH4M * NO3M +
+               NTOT + 
+               SO4SM +
+               latitude +
+               longitude +
+               survey_year +
+               (1|ID_plot)+
+               (1|ID),
+             data=combosites5)
+
+AIC(GLM, lmm1, lmm1.5, lmm2,lmm3)
+
+plot(ranef(lmm4)) 
+# QQ plots (drawn to the same scale!)
+par(mfrow = c(1,2))
+lims <- c(-3.5,3.5)
+qqnorm(resid(GLM, type = "pearson"),
+       xlim = lims, ylim = lims,main = "GLM")
+abline(0,1, col = "red", lty = 2)
+qqnorm(resid(lmm1, type = "pearson"),
+       xlim = lims, ylim = lims, main = "lmm1")
+abline(0,1, col = "red", lty = 2)
+
+mod <- nmod2
+
+summary(lmm1)
+#percentage variance explained by random factor ID_plot
+0.0007465/(0.0007465 + 0.0026378)#22%
+
+summary(lmm1.5)
+#percentage variance explained by random factor ID_plot
+0.0009634/(0.0009634 + 0.0035281)#22%
+
+summary(lmm2)
+#percentage variance explained by random factor ID
+0.002088/(0.002088 + 0.001063)#66%
+
+anova(lmm1, lmm2)
+
+qqnorm(resid(mod))#2016_SE14_1 is an outlier on 0.20+
+qqline(resid(mod))
+
+#Facet plots of model predictions####
+#comboplots
+(mm_plot <- ggplot(combosites5, aes(x = survey_year, y = pc_dist_base, colour = ID_plot)) +
+    facet_wrap(~ID_plot, nrow=2) +   # a panel for each mountain range
+    geom_point(alpha = 0.5) +
+    theme_classic() +
+    geom_line(data = cbind(combosites5, pred = predict(gam1)), aes(y = pred), size = 1) +  # adding predicted line from mixed model 
+    theme(legend.position = "none",
+          panel.spacing = unit(2, "lines"))  # adding space between panels
+)
+
+#all_data2
+(mm_plot <- ggplot(all_data2, aes(x = survey_year, y = pc_dist_base, colour = ID_plot)) +
+    facet_wrap(~ID_plot, nrow=2) +   # a panel for each mountain range
+    geom_point(alpha = 0.5) +
+    theme_classic() +
+    geom_line(data = cbind(all_data2, pred = predict(gam1)), aes(y = pred), size = 1) +  # adding predicted line from mixed model 
+    theme(legend.position = "none",
+          panel.spacing = unit(2, "lines"))  # adding space between panels
+)
+
+
+summary(mod<-lme(pc_dist_base~NH4M * NO3M + SO4SM + latitude + longitude,
+                 random=~1|ID_subplot,
+                 correlation=corCAR1(form=~survey_year|ID_subplot),
+                 data=drop_na(all_data2)))
+
+
+summary(mod<-lme(Sensitivity~time+sp,random=~1|Plot/Tree,
+                 correlation=corCAR1(form=~time|Plot/Tree), data=data_Gd))
+anova(Gd.mod3.s)
 #GAM
 #try same model with bam
-# N3_final_b <- bam(Ellenberg_N ~ 
-#                    #s(n_nh4, bs="tp")+
-#                    #s(n_no3, bs="tp")+
-#                    #ti(n_nh4, n_no3, bs="tp")+
-#                    te(NH4, NO3, bs = "tp") +
-#                    s(canopy,bs="tp") +
-#                    #s(L.x, bs= "tp")+
-#                    #s(herb_layer.x, bs="tp")+
-#                    #s(temperature,bs= "tp")+
-#                    s(precipitation,bs="tp")+
-#                    s(age, bs="tp", k=5)+
-#                    #as.factor(age)+ 
-#                    as.factor(tree)+
-#                    s(survey_year,ID_site, bs="re")+
-#                    s(ID_site, bs="re"),
-#                    #te(longitude,latitude,survey_year,bs="tp",d=c(2,1)),argGam = list(select=T),
-#                  data = dat_names)
-# 
-# b <- getViz(N3_final_b)
-# summary(b)
-# draw(b, parametric = FALSE, residuals = TRUE)
-# appraise(b)
-# acf(residuals(b))
-# #show sig areas only
-# plot(sm(b, 1))+l_fitRaster(pTrans = function(.p).p<=0.05)
-  
+k=5
+bs="ts"
+gam1 <- bam(pc_dist_base ~ #s(NH4M) +
+             #s(NO3M)+
+             #s(SO4SM,k=k, bs=bs)+
+             #s(NTOT,k=k, bs=bs)+
+             #s(PREC)+
+             s(latitude,k=k, bs=bs)+
+             s(longitude,k=k, bs=bs)+
+             #te(latitude, longitude,k=k, bs=bs)+
+             s(survey_year,k=k, bs=bs)+
+             s(ID_plot, bs="re"),
+             nthreads=12, 
+             family = gaussian,
+             data = all_data2)
+
+b <- getViz(gam1)
+summary(b)
+draw(b, parametric = FALSE, residuals = TRUE)
+appraise(b)
+acf(residuals(gam))
+concurvity(b)
+
+library(dsm)#vis.concurvity
+
+vis.concurvity(b, type = "estimate")
+vis.concurvity(b, type = "worst")
+
+
+
+#X PCA sequential distance reponses X####
+
+#lm
+summary(lm1 <- lm(pc_dist~
+                    NTOT.lag +
+                       #NH4M +
+                       #NO3M +
+                       SO4SM +
+                       latitude +
+                       longitude +
+                       survey_year, 
+                     data=combosites6))
+
+#nmle
+hist(combosites6$pc_dist)
+hist(log(combosites6$pc_dist))#log transf?
+
+
+summary(nmod1 <- lme(pc_dist~
+                       NTOT.lag +
+                       #NH4M +
+                       #NO3M +
+                       SO4SM +
+                       latitude + longitude,
+                     random=~1|ID_plot,
+                     correlation=corCAR1(form=~survey_year|ID_plot),
+                     data=combosites6))
+
+
+
+#MAPS#####
+
+library(ggplot2)  # ggplot() fortify()
+library(dplyr)  # %>% select() filter() bind_rows()
+library(rgdal)  # readOGR() spTransform()
+library(raster)  # intersect()
+library(ggsn)  # north2() scalebar()
+library(rworldmap)
+world <- getMap(resolution = "low")
+
+(site_check <- ggplot(all_data, mapping = aes(x = longitude, y = latitude)) + 
+    geom_point(alpha = 0.5))
+
+clipper_europe <- as(extent(3, 32, 50, 72), "SpatialPolygons")
+
+proj4string(clipper_europe) <- CRS(proj4string(world))
+
+world_clip <- raster::intersect(world, clipper_europe)
+
+world_clip_f <- fortify(world_clip)
+
+(site_map <- ggplot() + 
+    geom_polygon(data = world_clip_f, 
+                 aes(x = long, y = lat, group = group),
+                 fill = NA, colour = "black") + 
+    geom_point(colour = "black", size = 2.5, shape = 21, fill = "grey70",
+               stroke = 1,
+               aes(x = longitude, y = latitude),
+               data = all_data) +
+    # labs(shape="Forest type")+
+    theme_bw() +
+    xlab("Longitude") +
+    ylab("Latitude") + 
+    coord_quickmap())
+
+(site_map <- ggplot() + 
+    geom_polygon(data = world_clip_f, 
+                 aes(x = long, y = lat, group = group),
+                 fill = NA, colour = "black") + 
+    geom_point(colour = "black", size = 1.5,
+               aes(x = longitude, y = latitude),
+               data = all_data) +
+    # labs(shape="Forest type")+
+    theme_bw() +
+    xlab("Longitude") +
+    ylab("Latitude") + 
+    coord_quickmap())
+
+
+#rotation forest
+# library(rotationForest)
+# data(iris)
+# y <- as.factor(ifelse(iris$Species[1:100]=="setosa",0,1))
+# x <- iris[1:100,-5]
+# rF <- rotationForest(x,y)
+# predict(object=rF,newdata=x)
+# summary(rF)
+# plot(rF$loadings)

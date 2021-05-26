@@ -7,16 +7,16 @@ library(modelr)
 library(sjPlot)
 library(parallel)
 
-dat <- all_data
+dat <- all_data2
 #N
 
 
-glm1 <- stan_glmer(PC1 ~ NH4M * NO3M + sum_canopy + mean_temp + mean_precip + latitude +
+glm1 <- stan_glmer(pc_dist_base ~ NH4M * NO3M + SO4SM + PREC + latitude +
                        longitude + survey_year + (1 |ID_site), 
                        chains = 4, cores = 4, iter= 6000, data = dat, adapt_delta = 0.95)
 
-glm2 <- stan_glmer(PC2 ~ NH4M * NO3M + sum_canopy + mean_temp + mean_precip + latitude +
-                     longitude + survey_year + (1|ID_site), 
+glm2 <- stan_glmer(pc_dist_base ~ NTOT + SO4SM + PREC + latitude +
+                     longitude + survey_year + (1 |ID_site), 
                    chains = 4, cores = 4, iter= 6000, data = dat, adapt_delta = 0.95)
 
 glm2.5 <- stan_glmer(dispersion ~ NH4M * NO3M + SO4SM + TEMP + latitude + longitude +
@@ -24,14 +24,13 @@ glm2.5 <- stan_glmer(dispersion ~ NH4M * NO3M + SO4SM + TEMP + latitude + longit
                    chains = 4, cores = 4, iter= 6000, data = dat, adapt_delta = 0.95)
 
 #summaries stan
-fit <- glm2.5
-
+fit <- glm2
 launch_shinystan(fit)
 #model comparison
-fit1 <- glm2
-fit2 <- glm2.5
+fit1 <- glm1
+fit2 <- glm2
 
-loo1 <- loo(fit1, cores = 6, k_threshold = 0.7)
+loo1 <- loo(fit1, cores = 6)
 print(loo1)
 loo2 <- loo(fit2, cores = 6)
 print(loo2)

@@ -9,11 +9,12 @@ library(caret)
 library(visreg)
 #define data for models
 df <- all_data %>% ungroup()
+df <- combosites5 %>% ungroup()
 df$TEMP <- NULL
 df <- df %>% drop_na()
 #N
-RFmod <- randomForest(dispersion ~ latitude + longitude + NH4M + NO3M +
-                            SO4SM + PREC + 
+RFmod <- randomForest(pc_dist_base ~ latitude + longitude + NTOT  +
+                            SO4SM + PREC + beta.SNE +
                             survey_year, mtry = 2, data = df)
 
 train(dispersion ~ latitude + longitude + NH4M + NO3M +
@@ -26,9 +27,13 @@ varImpPlot(RFmod)
 visreg(RFmod)
 
 #beta.SOR
-RFmod <- randomForest(beta.SOR ~ latitude + longitude + NH4M + NO3M +
+RFmod <- randomForest(beta.SOR ~ latitude + longitude + NH4M + NO3M + pc_dist
                         SO4SM + PREC + 
-                        survey_year, mtry = 2, data = df)
+                        survey_year, mtry = 2, data = df %>% drop_na(beta.SOR))
+
+RFmod <- randomForest(beta.SOR ~ latitude + longitude + NH4M + NO3M + pc_dist
+                      SO4SM + PREC + 
+                        survey_year, mtry = 2, data = df %>% drop_na(beta.SOR))
 
 train(beta.SOR ~ latitude + longitude + NH4M + NO3M +
         SO4SM + PREC + 
@@ -49,6 +54,7 @@ visreg(fit)
 vip(fit,bar = FALSE, horizontal = FALSE, size = 1.5)
 
 partialPlot(fit, pred.data = df, x.var = "NH4M") 
+partial(fit, pred.var = "NTOT", plot = TRUE, plot.engine = "ggplot2") #xy plot of curve
 partial(fit, pred.var = "NH4M", plot = TRUE, plot.engine = "ggplot2") #xy plot of curve
 partial(fit, pred.var = "NO3M", plot = TRUE, plot.engine = "ggplot2")
 partial(fit, pred.var = "latitude", plot = TRUE, plot.engine = "ggplot2")
@@ -56,7 +62,7 @@ partial(fit, pred.var = "survey_year", plot = TRUE, plot.engine = "ggplot2")
 
 
 fit %>% 
-  partial(pred.var = "NH4M") %>%
+  partial(pred.var = "NTOT") %>%
   autoplot(smooth = TRUE) +
   theme_light() +
   ggtitle("ggplot2-based PDP")
