@@ -8,32 +8,51 @@ library(vip)
 library(caret)
 library(visreg)
 #define data for models
-df <- all_data %>% ungroup()
-df <- combosites5 %>% ungroup()
+df <- subplot.level.dat
+#df <- combosites5 %>% ungroup()
 df$TEMP <- NULL
 df <- df %>% drop_na()
 #N
-RFmod <- randomForest(pc_dist_base ~ latitude + longitude + NTOT  +
-                            SO4SM + PREC + beta.SNE +
-                            survey_year, mtry = 2, data = df)
+RFmod <- randomForest(pc_dist ~ #NH4M+
+                                #NO3M+
+                                latitude +
+                                longitude +
+                                NTOT  +
+                                SO4SM +
+                                PREC +
+                                #TEMP +
+                                #beta.SNE +
+                                year.i,importance = TRUE,
+                                mtry = 2, data = df)
 
-train(dispersion ~ latitude + longitude + NH4M + NO3M +
-        SO4SM + PREC + 
-        survey_year, data = dat, method ="rf") #optimal 2
+train(pc_dist ~ latitude +
+        longitude +
+        NTOT  +
+        SO4SM +
+        PREC +
+        #TEMP +
+        #beta.SNE +
+        year.i, data = df, method ="rf") #optimal 2
 
 RFmod
 importance(RFmod)
 varImpPlot(RFmod) 
 visreg(RFmod)
 
+
+
+
+
+
+
 #beta.SOR
-RFmod <- randomForest(beta.SOR ~ latitude + longitude + NH4M + NO3M + pc_dist
+RFmod <- randomForest(beta.SOR ~ latitude + longitude + NTOT +
                         SO4SM + PREC + 
-                        survey_year, mtry = 2, data = df %>% drop_na(beta.SOR))
+                        year.i, mtry = 2, data = df)
 
 RFmod <- randomForest(beta.SOR ~ latitude + longitude + NH4M + NO3M + pc_dist
                       SO4SM + PREC + 
-                        survey_year, mtry = 2, data = df %>% drop_na(beta.SOR))
+                        survey_year, mtry = 2, data = df)
 
 train(beta.SOR ~ latitude + longitude + NH4M + NO3M +
         SO4SM + PREC + 

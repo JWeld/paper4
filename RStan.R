@@ -7,12 +7,12 @@ library(modelr)
 library(sjPlot)
 library(parallel)
 
-dat <- all_data2
+dat <- plot.level.dat
 #N
 
 
-glm1 <- stan_glmer(pc_dist_base ~ NH4M * NO3M + SO4SM + PREC + latitude +
-                       longitude + survey_year + (1 |ID_site), 
+glm1 <- stan_glmer(pc_dist ~ NH4M * NO3M + SO4SM + PREC + latitude +
+                       longitude + survey_year + (1 |ID_plot), 
                        chains = 4, cores = 4, iter= 6000, data = dat, adapt_delta = 0.95)
 
 glm2 <- stan_glmer(pc_dist_base ~ NTOT + SO4SM + PREC + latitude +
@@ -24,7 +24,7 @@ glm2.5 <- stan_glmer(dispersion ~ NH4M * NO3M + SO4SM + TEMP + latitude + longit
                    chains = 4, cores = 4, iter= 6000, data = dat, adapt_delta = 0.95)
 
 #summaries stan
-fit <- glm2
+fit <- glm1
 launch_shinystan(fit)
 #model comparison
 fit1 <- glm1
@@ -58,12 +58,13 @@ summary(fit,
         probs = c(0.025, 0.975),
         digits = 2)
 
-nd <- select(simple.FD,R.y, NH4M, NO3M, plot.x, ID_siteonly, country, survey_year)
+nd <- select(plot.level.dat,NH4M,NO3M,SO4SM,PREC,latitude,
+               longitude,survey_year,ID_plot)
 ytilde <- posterior_predict(fit, nd, draws = 500)
 
 print(dim(ytilde))  # 500 by 3 matrix (draws by nrow(nd))
 ytilde <- data.frame(count = c(ytilde),
-                     outcome = rep(simple.FD$R.y, each = 500))
+                     outcome = rep(plot.level.dat$pc_dist, each = 500))
 
 ggplot2::ggplot(ytilde, ggplot2::aes(x=outcome, y=count)) +
   ggplot2::geom_point() +
@@ -182,7 +183,7 @@ betas <- posterior1[sample(nrow(posterior1), 200), 1:2]
 
 # Plot regression lines implied by the betas
 blues <- color_scheme_get("brightblue")
-mod1p1 <- ggplot(dat, aes(x = NH4M, y = dispersion)) +
+mod1p1 <- ggplot(dat, aes(x = NH4M, y = pc_dist)) +
   geom_point(color = "gray30") +
   geom_abline(
     intercept = betas[, 1], 
@@ -202,7 +203,7 @@ mod1p1 <- ggplot(dat, aes(x = NH4M, y = dispersion)) +
 plot(mod1p1)
 #ggsave("plots/regression1.pdf", width = 8, height = 6)
 temp <- drop_na(dat)
-(model_fit <- simple.FD %>%
+(model_fit <- dat %>%
     data_grid(nh4 = NH4M) %>%
     add_predicted_draws(fit) %>%
     ggplot(aes(x = NH4M, y = rich.y)) +
