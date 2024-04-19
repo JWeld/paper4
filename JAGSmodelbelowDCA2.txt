@@ -1,0 +1,43 @@
+model{
+for(i in 1:n) {
+y[i]~dnorm(y.hat[i], tau.plot[plot[i]])
+y.hat[i]<- mu + l[plot[i]] + ye[year[i]] + precip[i]*p + latitude[i]*lat +
+Canopy[i]*canopyness + NO3[i]*NO3p + NH4[i]*NH4p 
+}
+
+mu ~ dnorm (0, .0001)
+
+for (j in 1:L){
+l[j] ~ dnorm (0, tau.l)
+}
+
+for (k in 1:Y){
+ye[k] ~ dnorm (0, tau.y)
+}
+
+
+for(j in 1:L){
+tau.plot[j]<-pow(sigma.plot[j], -2)
+sigma.plot[j]~dlnorm(mu.plot.sigma[j], res.tau.plot)
+mu.plot.sigma[j] <- mu2 + precipmean[j]*pmean + latitudemean[j]*latmean +
+canopymean[j]*rmean + NH4mean[j]*nh4mean + NO3mean[j]*no3mean 
+}
+
+res.tau.plot <- pow(res.sigma.plot, -2)
+res.sigma.plot ~ dunif(0, 10)
+tau.l <- pow(sigma.l, -2)
+sigma.l ~ dunif(0, 10)
+tau.y <- pow(sigma.y, -2)
+sigma.y ~ dunif(0, 10)
+mu2 ~ dnorm (0, .0001)
+p ~ dnorm (0, .0001)
+pmean ~ dnorm (0, .0001)
+lat ~ dnorm(0, .0001)
+latmean ~ dnorm(0, .0001)
+NO3p ~ dnorm(0, .0001)
+NH4p ~ dnorm(0, .0001)
+canopyness ~ dnorm(0, .0001)
+rmean ~ dnorm(0, .0001)
+nh4mean ~ dnorm(0, .0001)
+no3mean ~ dnorm(0, .0001)
+}

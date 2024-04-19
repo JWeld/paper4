@@ -1,0 +1,154 @@
+"","SPECIES","species_name"
+"1","ANTH ODO","Anthoxanthum odoratum"
+"2","ANTH SYL","Anthriscus sylvestris"
+"3","C VAGINA","Carex vaginata"
+"4","CALA PUR","Calamagrostis purpurea"
+"5","CIRS HEL","Cirsium helenioides"
+"6","DESC FLE","Deschampsia flexuosa"
+"7","ELYM MUT",NA
+"8","EPIL ANG","Epilobium angustifolium"
+"9","EQUISETZ",NA
+"10","FEST OVI",NA
+"11","GERA SYL","Geranium sylvaticum"
+"12","JUNI COM","Juniperus communis"
+"13","LYCO ANN","Lycopodium annotinum"
+"14","MELA SYL","Melampyrum sylvaticum"
+"15","MELI NUT","Melica nutans"
+"16","MILI EFF","Milium effusum"
+"17","MYOS DEC",NA
+"18","PARI QUA","Paris quadrifolia"
+"19","POA Z",NA
+"20","PYRO MIN","Pyrola minor"
+"21","RUBU SAX","Rubus saxatilis"
+"22","SAUS ALP",NA
+"23","SILE DIO","Silene dioica"
+"24","SOLI VIR","Solidago virgaurea"
+"25","SORB AUC","Sorbus aucuparia"
+"26","STEL NEM","Stellaria nemorum"
+"27","TRIE EUR","Trientalis europaea"
+"28","VA OF.SM",NA
+"29","VACC VIT","Vaccinium vitis-idaea"
+"30","VIOL BIF","Viola biflora"
+"31","BARB LYC","Barbilophozia lycopodioides"
+"32","BARBILOZ","Barbilophozia sp."
+"33","BRAC REF","Brachythecium reflexum"
+"34","BRAC SAL","Brachythecium salebrosum"
+"35","BRYUM Z",NA
+"36","PLAG CUS","Plagiomnium cuspidatum"
+"37","POLY COM","Polytrichum commune"
+"38","RHOD ROS","Rhodobryum roseum"
+"39","CERA FON",NA
+"40","GYMN DRY","Gymnocarpium dryopteris"
+"41","DIACRANUZ",NA
+"42","LINN BOR","Linnaea borealis"
+"43","ASTR FRI",NA
+"44","LUZU PIL","Luzula pilosa"
+"45","TROL EUR","Trollius europaeus"
+"46","BART ALP",NA
+"47","C BIGELO",NA
+"48","C DIOICA",NA
+"49","C LACHEN",NA
+"50","C NORVEG",NA
+"51","C SAXATI",NA
+"52","CA AQ.AQ.",NA
+"53","CA PR.NY.",NA
+"54","EMPE HER","Empetrum hermaphroditum"
+"55","EPILOBIZ","Epilobium sp."
+"56","EQUI ARV","Equisetum arvense"
+"57","EQUI PAL","Equisetum palustre"
+"58","EQUI SCI",NA
+"59","ERIO ANG","Eriophorum angustifolium"
+"60","EUPH FRI",NA
+"61","FEST RUB","Festuca rubra"
+"62","JUNC BIG",NA
+"63","LEON AUT",NA
+"64","PARN PAL",NA
+"65","PETA FRI",NA
+"66","PHLE ALP","Phleum alpinum"
+"67","PING VUL",NA
+"68","POLY VIV","Polygonum viviparum"
+"69","RANU ACR","Ranunculus acris"
+"70","RUME ALA","Rumex acetosella"
+"71","SALI GAU","Salix glauca"
+"72","SALI HER",NA
+"73","SALI LAP","Salix lapponum"
+"74","SALI POL",NA
+"75","SALI RET",NA
+"76","SELA SEL","Selaginella selaginoides"
+"77","SIBB PRO",NA
+"78","T CROCOD",NA
+"79","THAL ALP",NA
+"80","VACC MYR","Vaccinium myrtillus"
+"81","AULA PAL","Aulacomnium palustre"
+"82","CALL GIG",NA
+"83","CAMP STE","Campanula stenocodon"
+"84","CINC STY",NA
+"85","CLIM DEN",NA
+"86","DICR SCP","Dicranum scoparium"
+"87","DIST CAP",NA
+"88","DREP REV",NA
+"89","HYLO SPL","Hylocomium splendens"
+"90","ONCO VIR",NA
+"91","PALU SQ",NA
+"92","PHIL FON",NA
+"93","PLAG ELL",NA
+"94","PLEAU SCH",NA
+"95","POLY JUN","Polytrichum juniperinum"
+"96","RHIZ PSE","Rhizomnium pseudopunctatum"
+"97","RHYT RUG",NA
+"98","SANI UNC","Sanionia uncinata"
+"99","SCAP HYP",NA
+"100","SPHA WAR","Sphagnum warnstorfii"
+"101","TOME NIT",NA
+"102","TRIT QUI","Tritomaria quinquedentata"
+"103","CET ISLA","Cetraria islandica"
+"104","CLA ARBU","Cladonia arbuscula"
+"105","CLA GRAC","Cladonia gracilis"
+"106","CLADONIZ","Cladonia sp."
+"107","PEL APHT","Peltigera aphthosa"
+"108","PEL DEGE",NA
+"109","PELTIGEZ",NA
+"110","SPHAEROZ",NA
+"111","BETU NAN","Betula nana"
+"112","AGRO CAP","Agrostis capillaris"
+"113","CALA STR",NA
+"114","TOFI PUS",NA
+"115","BARB QUA",NA
+"116","PTIL CIL","Ptilidium ciliare"
+"117","NEPHROMZ",NA
+"118","THA VERM",NA
+"119","ALCH GLO",NA
+"120","C BRUNNE",NA
+"121","CASS HYP",NA
+"122","CERA ALP",NA
+"123","GNAP NOR",NA
+"124","GNAP SUP",NA
+"125","HIER ALP",NA
+"126","JUNC TFI",NA
+"127","POA API",NA
+"128","RUME ASA","Rumex acetosa"
+"129","VERO ALP",NA
+"130","DICR FUS","Dicranum fuscescens"
+"131","GYMN API",NA
+"132","GYMN CON","Gymnadenia conopsea"
+"133","GYMN COR",NA
+"134","HEPATICE",NA
+"135","LOPHOZIZ",NA
+"136","PLEU SCH","Pleurozium schreberi"
+"137","POHL NUT","Pohlia nutans"
+"138","POLY PIL","Polytrichum piliferum"
+"139","CET ERIC","Cetraria ericetorum"
+"140","CLA COCC","Cladonia coccifera"
+"141","CLA CORN","Cladonia cornuta"
+"142","CLA CRIS","Cladonia crispata"
+"143","CLA DEFO","Cladonia deformis"
+"144","CLA FIMB","Cladonia fimbriata"
+"145","CLA PYXI","Cladonia pyxidata"
+"146","CLA SQUA","Cladonia squamosa"
+"147","CLA UNCI","Cladonia uncialis"
+"148","NEP ARCT","Nephroma arcticum"
+"149","NEP RESU",NA
+"150","PEL CANI",NA
+"151","SOL CROC",NA
+"152","SPH FRAG",NA
+"153","STE PASC","Stereocaulon paschale"

@@ -1,5 +1,6 @@
 library(tidyverse)
 library(vegan)
+library(tidyverse)
 options(mc.cores = parallel::detectCores())
 library(gvlma)#checks assumptions for models
 library(sjPlot)
@@ -10,12 +11,13 @@ library(gratia)
 # hell_VG_fm <- decostand(VG_fm, "hellinger") 
 # hell_VG_bm <- decostand(VG_bm, "hellinger") 
 ordispe_h <- decostand(ordispe, "hellinger") #hellinger transform to make usable with PCA
+ordispe_pl_h <- decostand(ordispe_pl, "hellinger") #hellinger transform to make usable with PCA
+
 #DCA
 #DCA_f <- decorana(VG_fm, iweigh = 0)
 #DCA_b <- decorana(VG_bm, iweigh = 0)
 DCA_g <- decorana(ordispe, iweigh = 0)
-DCA_gp <- decorana(VG_gm2, iweigh = 0)
-DCA_gp_pa <- decorana(sign(VG_gm2), iweigh = 0)
+DCA_gp <- decorana(ordispe_pl, iweigh = 0)
 #pl <- ordiplot(DCA_f)
 #ordispider (pl, groups = VG_f_wide$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
 
@@ -24,15 +26,15 @@ DCA_gp_pa <- decorana(sign(VG_gm2), iweigh = 0)
 
 #by plot/site
 pl <- ordiplot(DCA_gp)
-ordispider (pl, groups = test$ID_plot, col = c("red","blue","green","grey","pink","yellow"),
-            label = F)
-ordiellipse (pl, groups = test$ID,
+ordispider (pl, groups = ordispe_pl_extras$ID_plot,
+            label = T)
+ordiellipse (pl, groups = ordispe_pl_extras$ID_plot,
              label = F)
 
 #by subplot
 pl <- ordiplot(DCA_g, display = "sites", type="none")
 points(pl, "sites", pch=21, col="grey60", bg="grey80")
-ordiellipse (pl, groups = test$ID_site,
+ordiellipse (pl, groups = ordi_extras$ID_site,
              label = T, col = "red")
 
 #by plot, PA
@@ -88,15 +90,12 @@ all_data_dca <- filter(all_data_dca, NH4M > 0)
 ggplot(all_data_dca, aes(DCA1, DCA2, colour = ID_plot)) + geom_point() +
   facet_wrap(facets = "ID_plot")
 
-ggplot(all_data_dca, aes(DCA1, DCA2, colour = ID_plot)) + geom_point() +
-  facet_wrap(facets = "ID_plot")
-
 ggplot(all_data_dca, aes(DCA1, DCA2,colour = ID_plot)) + geom_point()
 
 ggplot(all_data_dca, aes(DCA1, DCA2,colour = ID_plot)) + geom_point()
 
 #Figure
-ggplot(drop_na(all_data_dca), aes(DCA1, DCA2, colour = ID_plot)) + geom_point()+ 
+ggplot(all_data_dca, aes(DCA1, DCA2, colour = ID_plot)) + geom_point()+ 
   geom_path(size=1.25, arrow=arrow())
 
 test2 <- all_data_dca %>% group_by(ID_fine) %>% mutate(DCA1m = mean(DCA1)) %>% 
@@ -106,7 +105,7 @@ ggplot(test2, aes(DCA1m, DCA2m, colour = ID_plot)) + geom_point()+
 ggplot(all_data_dca, aes(DCA1, DCA2, colour = ID_subplot)) + geom_point()+ 
   geom_path(size=1.25, arrow=arrow())+ theme(legend.position="none")
 
-#Figure
+#Figure####
 ggplot(plot.level.dat %>% drop_na(pc_dist_base) %>%
          drop_na(ID_plot), aes(survey_year, pc_dist_base, colour = ID_plot)) +
   #  geom_point()+
@@ -129,7 +128,7 @@ text(pl, "species", col="blue", cex=0.5)
 #on hell transformed data
 #PCA_fh <- rda(hell_VG_fm, scale = FALSE)
 #PCA_bh <- rda(hell_VG_bm, scale = FALSE)
-PCA_gh <- rda(ordispe_h, scale = FALSE)
+PCA_gh <- rda(ordispe_h)
 
 summary(PCA_gh)
 #pl <- ordiplot(PCA_gh, display = "sites")
@@ -179,23 +178,43 @@ mod
 ## summary table of steps
 mod$anova
 
+#NMDS####
+nmds1 <- metaMDS(VG_gm, distance = "bray", k=3, parallel = 6, try =20, trymax = 50)
+ ordiplot(nmds1)
+pl <- ordiplot(nmds1, display = "sites", type="none")
+points(pl, "sites", pch=21, col="grey60", bg="grey80")
+ordiellipse (pl, groups = VG_g_wide$ID_plot,
+             label = T, col = "red")
+
+nmds2 <- metaMDS(VG_gm2, distance = "bray", k=2)
+ordiplot(nmds2)
+ordiellipse (nmds2, groups = VG_g_wide2$ID_plot)
+ordihull (nmds2, groups = VG_g_wide2$ID_plot, label = T)
+stressplot(nmds2)
+pl <- ordiplot(nmds2, display = "sites", type="none")
+points(pl, "sites", pch=21, col="grey60", bg="grey80")
+ordiellipse (pl, groups = VG_g_wide2$ID_plot,
+             label = T, col = "red")
+
 #Intensive plots per intensive/year####
-ordispe_h2 <- decostand(VG_gm2, "hellinger")
+ordispe_h2 <- decostand(VG_gm2, "hellinger") 
 
 #DCA
-# DCA_g2 <- decorana(VG_gm2, iweigh = 1)
-# pl <- ordiplot(DCA_g2)
-# ordispider (pl, groups = VG_g_wide2$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
-# ordiellipse (pl, groups = VG_g_wide2$ID,
-#              label = F)
+DCA_g2 <- decorana(VG_gm2, iweigh = 0)
+ordiplot(DCA_g2)
+pl <- ordiplot(DCA_g2, display = "sites", type="none")
+points(pl, "sites", pch=21, col="grey60", bg="grey80")
+ordiellipse (pl, groups = VG_g_wide2$ID_plot,
+             label = T, col = "red")
 #PCA
 #on hell transformed data
  PCA_gh2 <- rda(ordispe_h2)
  pl <- ordiplot(PCA_gh2, display = "sites")
  ordispider (pl, groups = VG_g_wide2$ID_site, col = c("red","blue","green","grey","pink","yellow"), label = T)
  pl <- ordiplot(PCA_gh2, display = "species")
- ordiellipse (pl, groups = VG_g_wide2$ID_site,
-              label = F)
+ points(pl, "sites", pch=21, col="grey60", bg="grey80")
+ ordiellipse (pl, groups = VG_g_wide2$ID_plot,
+              label = T, col = "red")
  text(pl, "sites", col="blue", cex=0.6)
 text(pl, "species", col="blue", cex=0.6)
 
@@ -383,20 +402,20 @@ combosubs3 <- combosubs2 %>% ungroup() %>% group_by(ID_subplot) %>% arrange(surv
   mutate(pc_dist_base = sqrt((pc1diffbase)^2 + (pc2diffbase)^2))
 
 #create lag terms for atmospheric pollutants
-combosubs3 <- combosubs3 %>% group_by(ID_plot) %>% arrange(survey_year) %>% 
-  mutate(NTOT.lag = lag(NTOT))
-combosubs3 <- combosubs3 %>% group_by(ID_plot) %>% arrange(survey_year) %>% 
-  mutate(NH4M.lag = lag(NH4M))
-combosubs3 <- combosubs3 %>% group_by(ID_plot) %>% arrange(survey_year) %>% 
-  mutate(NO3M.lag = lag(NO3M))
-combosubs3 <- combosubs3 %>% group_by(ID_plot) %>% arrange(survey_year) %>% 
-  mutate(SO4SM.lag = lag(SO4SM))
+# combosubs3 <- combosubs3 %>% group_by(ID_plot) %>% arrange(survey_year) %>% 
+#   mutate(NTOT.lag = lag(NTOT))
+# combosubs3 <- combosubs3 %>% group_by(ID_plot) %>% arrange(survey_year) %>% 
+#   mutate(NH4M.lag = lag(NH4M))
+# combosubs3 <- combosubs3 %>% group_by(ID_plot) %>% arrange(survey_year) %>% 
+#   mutate(NO3M.lag = lag(NO3M))
+# combosubs3 <- combosubs3 %>% group_by(ID_plot) %>% arrange(survey_year) %>% 
+#   mutate(SO4SM.lag = lag(SO4SM))
 combosubs3 <- ungroup(combosubs3)
 combosubs3 <- drop_na(combosubs3, pc_dist)
 
 
 ggplot(combosubs3 %>%
-         drop_na(ID_plot), aes(SO4SM.lag, pc_dist_base, colour = ID_plot)) +
+         drop_na(ID_plot), aes(SO4SM, pc_dist_base, colour = ID_plot)) +
   geom_point()+
   geom_smooth(method = "lm", se=FALSE)
 #geom_line(size=1) + theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5))
@@ -414,14 +433,24 @@ ggplot(subplot.level.dat, aes(PC1, PC2,colour = ID_plot)) + geom_point()
 
 ggplot(plot.level.dat, aes(PC1, PC2,colour = ID_plot)) + geom_point()
 
-#Figure
-ggplot(drop_na(plot.level.dat), aes(PC1, PC2, colour = ID_plot)) + geom_point()+ 
+#Figure####
+ggplot((plot.level.dat), aes(PC1, PC2, colour = ID_plot)) + geom_point()+ 
   geom_path(size=1.25, arrow=arrow())
+
+ggplot(filter(subplot.level.dat, ID_plot == "SE15_1"), aes(PC1, PC2, colour = ID_site)) + geom_point()+ 
+  geom_path(size=0.3, arrow=arrow())
+
+ggplot(subplot.level.dat, aes(PC1, PC2, colour = ID_site)) + geom_point()+ 
+  geom_path(size=0.3, arrow=arrow())
 
 test1 <- subplot.level.dat %>% group_by(ID_fine) %>% mutate(PC1m = mean(PC1)) %>% 
   mutate(PC2m = mean(PC2)) %>% ungroup()
 ggplot(test1, aes(PC1m, PC2m, colour = ID_plot)) + geom_point()+ 
   geom_path(size=1.25, arrow=arrow())
+
+
+
+
 ggplot(subplot.level.dat, aes(PC1, PC2, colour = ID_subplot)) + geom_point()+ 
   geom_path(size=1.25, arrow=arrow())+ theme(legend.position="none")
 
@@ -747,11 +776,11 @@ summary(mod<-lme(pc_dist_base~NH4M * NO3M + SO4SM + latitude + longitude,
 #GAM####
 #try same model with bam
 k=10
-bs="ts"
-gam0 <- bam(round(pc_dist*100) ~ #s(NH4M) +
+bs="tp"
+gam0 <- bam(round(pc_dist_base*100) ~ #s(NH4M) +
                       #s(NO3M)+
                       #s(SO4SM.lag,k=k, bs=bs)+
-                      s(NTOT.lag,k=k, bs=bs)+
+                      s(NTOT,k=k, bs=bs)+
                       #s(PREC)+
                       #s(latitude,k=k, bs=bs)+
                       #s(longitude,k=k, bs=bs)+
@@ -763,13 +792,13 @@ gam0 <- bam(round(pc_dist*100) ~ #s(NH4M) +
                       s(ID_subplot, bs="re"),
                     nthreads=6, 
                     family = poisson,
-                    data = subplot.level.dat)
+            data=filter(subplot.level.dat, ID_site != "SE14"))
 #data = subplot.level.dat)
 
-gam0f <- bam(round(pc_dist*100) ~ #s(NH4M) +
+gam0f <- bam(round(pc_dist_base*100) ~ #s(NH4M) +
               #s(NO3M)+
-              s(SO4SM.lag,k=k, bs=bs)+
-              s(NTOT.lag,k=k, bs=bs)+
+              s(SO4SM,k=k, bs=bs)+
+              s(NTOT,k=k, bs=bs)+
             s(PREC)+
             #s(latitude,k=k, bs=bs)+
             #s(longitude,k=k, bs=bs)+
@@ -778,13 +807,13 @@ gam0f <- bam(round(pc_dist*100) ~ #s(NH4M) +
             s(ID_subplot, bs="re"),
             nthreads=6, 
             family = poisson,
-            data = subplot.level.dat)
+            data=filter(subplot.level.dat, ID_site != "SE14"))
 #data = subplot.level.dat)
 
-gam1 <- bam(round(pc_dist*100) ~ #s(NH4M) +
+gam1 <- bam(round(pc_dist_base*100) ~ #s(NH4M) +
              #s(NO3M)+
-             s(SO4SM.lag,k=k, bs=bs)+
-             s(NTOT.lag,k=k, bs=bs)+
+             s(SO4SM,k=k, bs=bs)+
+             s(NTOT,k=k, bs=bs)+
              #s(PREC)+
              #s(latitude,k=k, bs=bs)+
              #s(longitude,k=k, bs=bs)+
@@ -793,13 +822,13 @@ gam1 <- bam(round(pc_dist*100) ~ #s(NH4M) +
              s(ID_subplot, bs="re"),
              nthreads=6, 
              family = poisson,
-             data = subplot.level.dat)
-             #data = subplot.level.dat)
+            data=filter(subplot.level.dat, ID_site != "SE14"))
+#data = subplot.level.dat)
 
 gam1.5 <- bam(round(pc_dist*100) ~ #s(NH4M) +
               #s(NO3M)+
               #s(SO4SM.lag,k=k, bs=bs)+
-              s(NTOT.lag,k=k, bs=bs)+
+              s(NTOT,k=k, bs=bs)+
               #s(PREC)+
               #s(latitude,k=k, bs=bs)+
               #s(longitude,k=k, bs=bs)+
@@ -809,13 +838,14 @@ gam1.5 <- bam(round(pc_dist*100) ~ #s(NH4M) +
               s(ID_subplot, bs="re"),
             nthreads=6, 
             family = poisson,
-            data = subplot.level.dat)
+            data=filter(subplot.level.dat, ID_site != "SE14"))
 #data = subplot.level.dat)
 
-gam2 <- bam(log(pc_dist) ~ #s(NH4M) +
-              #s(NO3M)+
-              #s(SO4SM,k=k, bs=bs)+
-              s(NTOT,k=k, bs=bs)+
+gam2 <- bam(log(pc_dist_base) ~ s(NH4M) +
+              s(NO3M)+
+              s(SO4SM,k=k, bs=bs)+
+              ti(NH4M, NO3M, SO4SM)+
+              #s(NTOT,k=k, bs=bs)+
               #s(beta.SOR)+
               #s(PREC)+
               #s(latitude,k=k, bs=bs)+
@@ -824,18 +854,99 @@ gam2 <- bam(log(pc_dist) ~ #s(NH4M) +
               #year.i+
               s(year.i, bs=bs)+
               s(ID_plot,bs="re")+
-              s(ID_subplot, bs="re"),
+              s(ID_subplot, bs="re"),   
             nthreads=6, 
             family = gaussian,
             method = "REML",
             #data = all_data_dca)
-            data = subplot.level.dat.no)
-#data = plot.level.dat)
+            data = z)
+            #data=filter(subplot.level.dat, ID_site != "SE14"))
 
-gam2.1 <- bam(round(pc_dist*100) ~ #s(NH4M) +
+gam2.all <- bam(log(pc_dist_base) ~ s(NH4M,k=k, bs=bs) +
+              s(NO3M,k=15, bs=bs)+
+              s(SO4SM,k=15, bs=bs)+
+              ti(NH4M, NO3M, SO4SM)+
+              #s(NTOT,k=k, bs=bs)+
+              #s(beta.SOR)+
+              #s(PREC)+
+              #s(latitude,k=k, bs=bs)+
+              #s(longitude,k=k, bs=bs)+
+              #te(latitude, longitude,k=k, bs=bs)+
+              #year.i+
+              s(year.i, bs=bs)+
+              s(ID_plot,bs="re")+
+              s(ID_subplot, bs="re"),   
+            nthreads=6, 
+            family = gaussian,
+            method = "REML",
+            #data = all_data_dca)
+            data=subplot.level.dat)
+
+bam(log(pc_dist) ~ s(NH4M) +
+      s(NO3M)+
+      #s(NTOT)+
+      s(SO4SM)+
+      ti(SO4SM,NO3M,NH4M)+
+      #s(PREC)+
+      #s(latitude,k=k, bs=bs)+
+      #s(longitude,k=k, bs=bs)+
+      #te(latitude, longitude,k=k, bs=bs)+
+      s(year.i,k=15, bs=bs)+
+      s(ID_plot, bs= "re")+
+      s(ID_subplot, bs="re"),
+    nthreads=6, 
+    select = TRUE,
+    family = gaussian,
+    data = subplot.level.dat)
+
+
+gam2.tot <- bam(log(pc_dist_base) ~ s(NTOT, k=k,bs=bs) +
+              #s(NO3M)+
+              s(SO4SM,k=k, bs=bs)+
+              ti(NTOT, SO4SM)+
+              #s(NTOT,k=k, bs=bs)+
+              #s(beta.SOR)+
+              #s(PREC)+
+              #s(latitude,k=k, bs=bs)+
+              #s(longitude,k=k, bs=bs)+
+              #te(latitude, longitude,k=k, bs=bs)+
+              #year.i+
+              s(year.i, bs=bs)+
+              s(ID_plot,bs="re")+
+              s(ID_subplot, bs="re"),   
+            nthreads=6, 
+            family = gaussian,
+            method = "REML",
+            #data = all_data_dca)
+            #data = subplot.level.dat)
+data=filter(subplot.level.dat, ID_site != "SE14"))
+
+gam2.all.tot <- bam(log(pc_dist_base) ~ s(NTOT, k=k,bs=bs) +
+                    #s(NO3M)+
+                    s(SO4SM,k=k, bs=bs, k=5)+
+                    ti(NTOT, SO4SM)+
+                #s(NTOT,k=k, bs=bs)+
+                #s(beta.SOR)+
+                #s(PREC)+
+                #s(latitude,k=k, bs=bs)+
+                #s(longitude,k=k, bs=bs)+
+                #te(latitude, longitude,k=k, bs=bs)+
+                #year.i+
+                s(year.i, bs=bs)+
+                s(ID_plot,bs="re")+
+                s(ID_subplot, bs="re"),   
+              nthreads=6, 
+              family = gaussian,
+              method = "REML",
+              #data = all_data_dca)
+              data=subplot.level.dat)
+              #data=filter(subplot.level.dat, ID_site != "SE14"))
+
+
+gam2.1 <- bam(round(pc_dist_base*100) ~ #s(NH4M) +
               #s(NO3M)+
               #s(SO4SM.lag,k=k, bs=bs)+
-              s(NTOT.lag,k=k, bs=bs)+
+              s(NTOT,k=k, bs=bs)+
               #s(PREC)+
               #s(latitude,k=k, bs=bs)+
               #s(longitude,k=k, bs=bs)+
@@ -844,13 +955,12 @@ gam2.1 <- bam(round(pc_dist*100) ~ #s(NH4M) +
               s(ID_subplot, bs="re"),
             nthreads=6, 
             family = poisson,
-            data = subplot.level.dat)
+            data=filter(subplot.level.dat, ID_site != "SE14"))
 
-
-gam2.2 <- bam(sqrt(pc_dist) ~ #s(NH4M) +
+gam2.20 <- bam(sqrt(pc_dist_base) ~ #s(NH4M) +
                 #s(NO3M)+
                 #s(SO4SM.lag,k=k, bs=bs)+
-                s(NTOT.lag,k=k, bs=bs)+
+                s(NTOT,k=k, bs=bs)+
                 #s(PREC)+
                 #s(latitude,k=k, bs=bs)+
                 #s(longitude,k=k, bs=bs)+
@@ -862,7 +972,22 @@ gam2.2 <- bam(sqrt(pc_dist) ~ #s(NH4M) +
               family = betar,
               data = subplot.level.dat)
 
-gam2.3 <- bam(log(pc_dist) ~ #s(NH4M) +
+gam2.2 <- bam(pc_dist_base ~ #s(NH4M) +
+                #s(NO3M)+
+                #s(SO4SM.lag,k=k, bs=bs)+
+                s(NTOT,k=k, bs=bs)+
+                #s(PREC)+
+                #s(latitude,k=k, bs=bs)+
+                #s(longitude,k=k, bs=bs)+
+                #te(latitude, longitude,k=k, bs=bs)+
+                s(year.i, bs=bs)+
+                s(ID_plot,bs="re")+
+                s(ID_subplot, bs="re"),
+              nthreads=6, 
+              family = betar,
+              data=filter(subplot.level.dat, ID_site != "SE14"))
+
+gam2.3 <- bam(log(pc_dist_base) ~ #s(NH4M) +
                 #s(NO3M)+
                 #s(SO4SM.lag,k=k, bs=bs)+
                 s(NTOT,k=k, bs=bs)+
@@ -875,31 +1000,32 @@ gam2.3 <- bam(log(pc_dist) ~ #s(NH4M) +
                 s(ID_subplot, bs="re"),
               nthreads=6, 
               family = gaussian,
-              data = subplot.level.dat)
+              data=filter(subplot.level.dat, ID_site != "SE14"))
 #data = plot.level.dat)
 
-gam3 <- bam(log(pc_dist) ~ #s(NH4M) +
+gam3 <- bam(log(pc_dist_base) ~ #s(NH4M) +
               #s(NO3M)+
               #s(NTOT)+
               #s(SO4SM)+
-              te(SO4SM,NTOT, k=5)+
+              te(NTOT,SO4SM)+
               #s(PREC)+
               #s(latitude,k=k, bs=bs)+
               #s(longitude,k=k, bs=bs)+
               #te(latitude, longitude,k=k, bs=bs)+
-              s(year.i,k=15, bs=bs)+
+              s(year.i, bs=bs)+
               s(ID_plot, bs= "re")+
               s(ID_subplot, bs="re"),
             nthreads=6, 
             select = TRUE,
             family = gaussian,
-            data = subplot.level.dat)
+            data=filter(subplot.level.dat, ID_site != "SE14"))
 
-gam4 <- bam(log(pc_dist) ~ #s(NH4M) +
+gam4 <- bam(log(pc_dist_base) ~ #s(NH4M) +
               #s(NO3M)+
-              #s(SO4SM,k=k, bs=bs)+
-              #s(NTOT,k=k, bs=bs)+
-              te(NTOT, SO4SM)+
+              s(SO4SM,k=k, bs=bs)+
+              s(NTOT,k=k, bs=bs)+
+              ti(NTOT, SO4SM)+
+              #te(NTOT, SO4SM)+
               #s(beta.SOR)+
               #s(PREC)+
               #s(latitude,k=k, bs=bs)+
@@ -912,17 +1038,18 @@ gam4 <- bam(log(pc_dist) ~ #s(NH4M) +
             nthreads=6, 
             family = gaussian,
             method = "REML",
-            data = subplot.level.dat.no)
+            data=filter(subplot.level.dat, ID_site != "SE14"))
 
 # qdat <- select(subplot.level.dat, NTOT, SO4SM, year.i, ID_plot, ID_subplot, latitude, longitude,
 #                pc_dist) %>% drop_na()
 
-b <- getViz(gam4)
+b <- getViz(gam2)
 summary(b)
-draw(b, parametric = FALSE, residuals = TRUE)
+draw(b, parametric = FALSE, residuals = TRUE, select = 1:5)
 appraise(b)
 acf(residuals(b))
 concurvity(b, full = FALSE)
+gam.check(b)
 library(sjPlot)
 tab_model(b, show.ci = FALSE, show.stat = TRUE, show.r2 = FALSE,
           show.obs = FALSE, string.stat = "Chi.sq", string.est = "edf", file ="GAM1.html")#on dat 1493.023
@@ -931,34 +1058,35 @@ library(dsm)#vis.concurvity
 vis.concurvity(b, type = "estimate")
 vis.concurvity(b, type = "worst")
 
-AIC(gam0, gam0f, gam1,gam1.5, gam2,gam2.2,gam2.3, gam3)
+AIC(gam0, gam0f, gam1,gam1.5, gam2,gam2nl, gam2.20, gam2.1,gam2.2,gam2.3, gam3, gam4)
 
 #X PCA sequential distance reponses X####
 
 #lm
-summary(lm1 <- lm(log(pc_dist)~
-                       NTOT.lag +
-                       #NH4M +
-                       #NO3M +
-                       SO4SM.lag +
+summary(lm1 <- lm(log(pc_dist_base)~
+                       NTOT +
+                       #NH4M *
+                       #NO3M *
+                       SO4SM +
                        #TEMP +
                        PREC +
                        #SO4SM.lag +
                        latitude +
                        longitude +
                        year.i, 
-                     data=subplot.level.dat))
+                     data=filter(subplot.level.dat, ID_site != "SE_14")))
                     # data=plot.level.dat))
 gvlma(lm1)
 acf(resid(lm1))
 mean(lm1$residuals)
+plot(resid(lm1))
 #nmle
 hist(subplot.level.dat$pc_dist)
 hist(log(subplot.level.dat$pc_dist))#log transf?
 
 
-summary(nmod1 <- lme(pc_dist~
-                       NTOT.lag +
+summary(nmod1 <- lme(pc_dist_base~
+                       NTOT +
                        year.i ,
                        #NH4M +
                        #NO3M +
@@ -966,9 +1094,9 @@ summary(nmod1 <- lme(pc_dist~
                        #latitude + longitude,
                      random=~1|ID_plot,
                      correlation=corCAR1(form=~year.i|ID_plot),
-                     data=drop_na(select(plot.level.dat, - TEMP))))
+                     data=filter(subplot.level.dat, ID_site != "SE_14")))
 
-summary(nmod2 <- lme(pc_dist~
+summary(nmod2 <- lme(pc_dist_base~
                        NTOT.lag +
                        year.i + 
                        #NH4M +
@@ -1011,7 +1139,7 @@ vif(nmod1)
 
 #Lmer####
 #GLM null model
-GLM <- gls(log(pc_dist)~
+GLM <- gls(log(pc_dist_base)~
              #NH4M * NO3M +
              NTOT + 
              SO4SM +
@@ -1170,26 +1298,31 @@ MCMCplot(mod$VCV)
 library(glmmTMB)
 library(broom)
 library(DHARMa)
-mod0 <- glmmTMB(log(pc_dist) ~ NTOT + (1|year.i) + #(1|year.i/ID_subplot) +
+mod0 <- glmmTMB(log(pc_dist_base) ~ NTOT + (1|year.i) + #(1|year.i/ID_subplot) +
                   (1|ID_site/ID_plot/ID_subplot),
                   #(1|ID_fine),
-                family = "gaussian", data = subplot.level.dat)
+                family = "gaussian",   data=filter(subplot.level.dat, ID_site != "SE_14"))
 
-mod0 <- glmmTMB(log(pc_dist) ~ NTOT + SO4SM +(1|year.i) + #(1|year.i/ID_subplot) +
-                  (1|ID_site)+ (1|ID_plot)+ (1|ID_subplot),
-                #(1|ID_fine),
-                family = "gaussian", data = subplot.level.dat)
+mod1 <- glmmTMB(log(pc_dist_base) ~ 
+                  NH4M *
+                  NO3M *
+                  #NTOT * 
+                  SO4SM +
+                 #(1|year.i) + #(1|year.i/ID_subplot) +
+                 (1|ID_site)+ (1|ID_plot)+ (1|ID_subplot),
+                 #(1|ID_fine),
+                family = "gaussian",   data=filter(subplot.level.dat, ID_site != "SE_14"))
 
-mod1 <- glmmTMB(round(pc_dist*100)~ NTOT +
-                  #SO4SM +
+mod2 <- glmmTMB(round(pc_dist_base*100)~ NTOT +
+                  SO4SM +
                   year.i+
                   (1|year.i) + #(1|year.i/ID_subplot) +
                   (1|ID_site)+
                   (1|ID_plot)+
                   (1|ID_subplot),
                 #(1|ID_fine),
-                family = "poisson", data = subplot.level.dat)
-mod <- mod1
+                family = "poisson",   data=filter(subplot.level.dat, ID_site != "SE_14"))
+mod <- mod3
 summary(mod)
 res = simulateResiduals(mod)
 plot(res, rank = T)
@@ -1197,30 +1330,30 @@ acf(resid(mod))
 
 mod1 <- glmmTMB(round(pc_dist*100) ~ NTOT + year.i +(1|ID_subplot) +
                   (1|ID_plot),
-                family = "poisson", data = subplot.level.dat)
+                family = "gaussian",   data=filter(subplot.level.dat, ID_site != "SE_14"))
 
 
 mod2 <- glmmTMB(log(pc_dist) ~ NTOT + year.i +
                   #beta.SIM +
                   (1|ID_subplot) +
                   (1|ID_plot),
-               family = "gaussian", data = subplot.level.dat.no)
+                family = "gaussian",   data=filter(subplot.level.dat, ID_site != "SE_14"))
 
 mod3 <- glmmTMB(log(pc_dist) ~ NTOT +(1|year.i) +(1|ID_subplot) +
                   (1|ID_plot),
-                family = "gaussian", data = subplot.level.dat.no)
+                family = "gaussian",   data=filter(subplot.level.dat, ID_site != "SE_14"))
 
 mod4 <- glmmTMB(sqrt(pc_dist) ~ NTOT + (1|year.i) +(1|ID_subplot) +
                   (1|ID_plot),
-                family = "gaussian", data = subplot.level.dat)
+                family = "gaussian",   data=filter(subplot.level.dat, ID_site != "SE_14"))
 
 mod5 <- glmmTMB(pc_dist ~ NTOT + year.i +(1|ID_subplot) +
                   (1|ID_plot), beta_family(),
-                data = subplot.level.dat)
+                 data=filter(subplot.level.dat, ID_site != "SE_14"))
 
 mod6 <- glmmTMB(pc_dist ~ NTOT +(1|ID_subplot/year.i) +
                   (1|ID_plot/year.i), beta_family(),
-                data = subplot.level.dat)
+                data=filter(subplot.level.dat, ID_site != "SE_14"))
 
 AIC(mod1, mod2,mod3,mod4,mod5,mod6)
 
@@ -1228,7 +1361,7 @@ BIC(mod1, mod2,mod3,mod4,mod5,mod6,GLM, lmm1, lmm1.5,
 lmm2,lmm3,lmm4,lmm5,gam0, gam0f, gam1,gam1.5, gam2,gam2.2,
 gam2.3, gam3) %>% arrange(BIC)
 
-mod <- mod2
+mod <- mod3
 summary(mod)
 res = simulateResiduals(mod)
 #res = simulateResiduals(mod, form = subplot.level.dat$year.i)
@@ -1255,7 +1388,7 @@ testTemporalAutocorrelation(res.t)
 testSpatialAutocorrelation(res, x= subplot.level.dat$longitude, y = subplot.level.dat$latitude)
 
 res.t <- recalculateResiduals(res, group = subplot.level.dat$year.i)
-plot(res, quantreg = FALSE)
+plot(res.t, quantreg = FALSE)
 
 
 

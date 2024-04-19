@@ -13,11 +13,11 @@ df <- subplot.level.dat
 df$TEMP <- NULL
 df <- df %>% drop_na()
 #N
-RFmod <- randomForest(pc_dist ~ #NH4M+
-                                #NO3M+
+RFmod <- randomForest(pc_dist_base ~ NH4M+
+                                NO3M+
                                 latitude +
                                 longitude +
-                                NTOT  +
+                                #NTOT  +
                                 SO4SM +
                                 PREC +
                                 #TEMP +
@@ -25,9 +25,12 @@ RFmod <- randomForest(pc_dist ~ #NH4M+
                                 year.i,importance = TRUE,
                                 mtry = 2, data = df)
 
-train(pc_dist ~ latitude +
+train(pc_dist_base ~ 
+        NH4M+
+        NO3M+
+        latitude +
         longitude +
-        NTOT  +
+        #NTOT  +
         SO4SM +
         PREC +
         #TEMP +
@@ -46,20 +49,22 @@ visreg(RFmod)
 
 
 #beta.SOR
-RFmod <- randomForest(beta.SOR ~ latitude + longitude + NTOT +
-                        SO4SM + PREC + 
+RFmod <- randomForest(pc_dist_base ~ latitude + longitude + NTOT +
+                        SO4SM + PREC +
                         year.i, mtry = 2, data = df)
 
-RFmod <- randomForest(beta.SOR ~ latitude + longitude + NH4M + NO3M + pc_dist
+RFmod <- randomForest(pc_dist_base ~ latitude + longitude + NH4M + NO3M + 
                       SO4SM + PREC + 
                         survey_year, mtry = 2, data = df)
 
-train(beta.SOR ~ latitude + longitude + NH4M + NO3M +
+train(pc_dist_base ~ latitude + longitude + NH4M + NO3M +
         SO4SM + PREC + 
         survey_year, data = dat, method ="rf") #optimal 2
 
 RFmod
 importance(RFmod)
+importance(RFmod,type=1)
+
 varImpPlot(RFmod) 
 visreg(RFmod)
 
@@ -69,10 +74,11 @@ varImpPlot(fit)
 plot(fit)
 visreg(fit)
 
-#plot_importance_ggpairs(fit)
-vip(fit,bar = FALSE, horizontal = FALSE, size = 1.5)
 
-partialPlot(fit, pred.data = df, x.var = "NH4M") 
+
+#plot_importance_ggpairs(fit)
+vip(fit, horizontal = TRUE)
+partialPlot(fit$coefs, pred.data = df, x.var = "NH4M") 
 partial(fit, pred.var = "NTOT", plot = TRUE, plot.engine = "ggplot2") #xy plot of curve
 partial(fit, pred.var = "NH4M", plot = TRUE, plot.engine = "ggplot2") #xy plot of curve
 partial(fit, pred.var = "NO3M", plot = TRUE, plot.engine = "ggplot2")

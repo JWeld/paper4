@@ -51,7 +51,7 @@ spider$abund
 # Environmental variables
 spider$x
 # Plot data using boxplot:
-boxplot(spider$abund)
+boxplot(ordispe)
 
 
 
@@ -67,7 +67,7 @@ boxplot(spider$abund)
 # Let's try just with a Poisson and NB.
 # NOTE THAT the results may not be exactly the same as below, as the initial values for each model fit are slightly different, so the results may also differ slightly.
 # Fit a GLLVM to data
-fitp <- gllvm(y=spider$abund, family = poisson())
+fitp <- gllvm(y=ordispe/100, family = beta)
 fitp
 fitnb <- gllvm(y=spider$abund, family = "negative.binomial")
 fitnb
