@@ -81,7 +81,7 @@ VG <- VG %>% filter(!ID_site %in% exclude)
 #there is a species named "NULL", remove
 VG <- VG %>% filter(!Medium == "NULL")
 
-#filter to field and bottom layers
+#filter to keep only field and bottom layers
 VG_ground <- VG %>% filter(VG$Parameter %in% c("COVE_F", "COVE_B")) %>%
   rename(Param = Parameter)
 #VG_ground <- select(VG_ground, -c("AreaName", "StationName", "Descrption", "country", "SpeciesName", "Class"))

@@ -9,6 +9,7 @@ library(gratia)
 #Intensive plots (VG)####
 #Data#
 ordispe_sub #matrix of subplots
+ordi_extras #factors columns removed from subplots matrix
 ordispe_pl #matrix of plots
 ordispe_pl_extras #factors columns removed from plots matrix
 ordienv #factor columns removed from subplots matrix plus env variables
@@ -33,12 +34,15 @@ check2 <- filter(check, ID !="2016_SE14_0001_24")
 check2 <- filter(check2, ID !="2016_SE14_0001_5")
 check2 <- column_to_rownames(check2, "ID")
 
+ordi_extras_check <- filter(ordi_extras.df, ID_fine2 !="2016_SE14_0001_24")
+ordi_extras_check <- filter(ordi_extras_check, ID_fine2 !="2016_SE14_0001_5")
+
 nmds_sub <- metaMDS(check2, distance = "bray", k=2, parallel = 8, try =20, trymax = 25)
 #ordiplot(nmds_sub)
 #stressplot(nmds_sub)
 pl <- ordiplot(nmds_sub, display = "sites", type="none")
 points(pl, "sites", pch=21, col="grey60", bg="grey80")
-ordiellipse (pl, groups = ordi_extras$ID_plot,
+ordiellipse (pl, groups = ordi_extras_check$ID_plot,
              label = T, col = "red")
 
 
@@ -48,6 +52,7 @@ ordiplot(nmds_pl)
 ordiellipse (nmds_pl, groups = ordispe_pl_extras$ID_plot)
 ordihull (nmds_pl, groups = ordispe_pl_extras$ID_plot, label = T)
 stressplot(nmds_pl)
+
 pl <- ordiplot(nmds_pl, display = "sites", type="none")
 points(pl, "sites", pch=21, col="grey60", bg="grey80")
 ordiellipse (pl, groups = ordispe_pl_extras$ID_plot,
@@ -79,7 +84,7 @@ NMDS_pl_sites_scores <- left_join(NMDS_pl_sites_scores, extras, by = "ID_fine")
 NMDS_pl_sp_scores <- NMDS_pl_scores$species
 
 ggplot(NMDS_sub_sites_scores, aes(NMDS1, NMDS2, colour = ID_plot)) + geom_point()+ 
-  geom_path(size=1.25, arrow=arrow()) +
+  geom_path(linewidth=0.5, arrow=arrow()) +
   theme_light()
 
 df_labels <- aggregate(cbind(NMDS1, NMDS2) ~ ID_plot, data = NMDS_pl_sites_scores, FUN = mean)
